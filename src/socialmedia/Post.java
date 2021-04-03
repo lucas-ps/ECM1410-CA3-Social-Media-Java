@@ -8,4 +8,10 @@ public class Post {
     private String contents;
     private Account author;
 
+
+    public int removePost(int postId){
+        return 0;
+    }
+
+
 }
