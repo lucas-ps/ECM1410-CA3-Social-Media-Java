@@ -9,6 +9,12 @@ public class Post {
     private Account author;
 
 
+    public Post(Account author, String contents){
+        this.author = author;
+        this.contents = contents;
+
+    }
+
     public int removePost(int postId){
         return 0;
     }
