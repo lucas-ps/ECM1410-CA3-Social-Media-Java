@@ -3,6 +3,8 @@ package socialmedia;
 import java.util.ArrayList;
 
 public class Original extends Post{
+    //TODO
+    // TODO:
     private int postId;
     private Account author;
     private String contents;
@@ -16,8 +18,8 @@ public class Original extends Post{
     }
 
     public static void isContentsValid(String contents) throws InvalidPostException{
-        if (contents.equals(null)) {
-            throw new InvalidPostException("Contents is null");
+        if (contents.equals("")) {
+            throw new InvalidPostException("Contents is empty.");
         }
         if (contents.length() > 100) {
             throw new InvalidPostException("Contents is over 100 characters. It is too long.");

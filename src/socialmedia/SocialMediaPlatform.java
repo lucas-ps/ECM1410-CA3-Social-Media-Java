@@ -58,6 +58,7 @@ public interface SocialMediaPlatform extends MiniSocialMediaPlatform {
 	 */
 	void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException;
 
+
 	// End Post-related methods ****************************************
 
 	// Analytics-related methods ****************************************

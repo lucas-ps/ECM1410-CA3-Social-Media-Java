@@ -2,12 +2,12 @@ package socialmedia;
 
 import java.util.ArrayList;
 
-
 public class Account{
-    //ToDo constraints (handle must be unique ==> put some constraints in but need to do the uniqueness) (ID must be created whilst the account is created and must be unique ==> think ive got this one)
-    //ToDo methods (constructor to create account) (store accounts and be able to delete them given id) (counting the endorsements an account has)
-    //ToDo is an array list the best data type for the posts??
-    //ToDo delete an account
+    //TODO: constraints (handle must be unique ==> put some constraints in but need to do the uniqueness)
+    // (ID must be created whilst the account is created and must be unique ==> think ive got this one)
+    // (counting the endorsements an account has)
+    // is an array list the best data type for the posts??
+
     private String description;
     private int newId = 0;
     private int id;
@@ -50,7 +50,7 @@ public class Account{
         if (handle.contains(" ")){
             throw new InvalidHandleException("Handle contains whitespace.");
         }
-        if (handle.length()> 20){
+        if (handle.length()> 30){
             throw new InvalidHandleException("Handle is too long.");
         }
     }
@@ -64,7 +64,7 @@ public class Account{
     }
 
     @Override
-    //ToDo need to check this is the right format ==> it is but we need to sort the endorsment out
+    //ToDo need to check this is the right format ==> it is but we need to sort the endorsement out
     public String toString() {
        return "\nID: " + id + "\nHandle: " + handle + "\nDescription: " + description +
                "Post count" + userPosts.size() + "\n Endorse count:" + "DUCK" + "\n";
