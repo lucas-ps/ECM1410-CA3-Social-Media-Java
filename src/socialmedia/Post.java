@@ -1,23 +1,26 @@
 package socialmedia;
 
 public class Post {
-    //Constraints (postId goes up in chronological order) (100 character limit on contents)
-    //Methods (constructor to create posts posts) (remove from list using postId)
+    //ToDo Constraints (postId goes up in chronological order!! Just realised this may be tricky)
+    // (100 character limit on contents)
+    //ToDo Methods (constructor to create posts posts)
+    // (remove from list using postId)
+    //ToDo just realisied im doing parent classes wrong whoopsie i need to move this stuff
+    //ToDo the show post children details method looks hard so thats going to be difficult, need a stringbuilder
 
+    private static int freePostId = 0;
     private int postId;
     private String contents;
     private Account author;
 
 
-    public Post(Account author, String contents){
-        this.author = author;
-        this.contents = contents;
-
+    public Post(){
+        postId = freePostId;
+        freePostId++;
     }
 
-    public int removePost(int postId){
-        return 0;
+    @Override
+    public String toString() {
+        return "";
     }
-
-
 }
