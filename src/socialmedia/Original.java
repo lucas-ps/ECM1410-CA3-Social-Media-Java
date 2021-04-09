@@ -13,13 +13,32 @@ public class Original extends Post implements Serializable {
        this.contents = contents;
     }
 
-    public static void isContentsValid(String contents) throws InvalidPostException{
-        if (contents.equals("")) {
-            throw new InvalidPostException("Contents is empty.");
-        }
-        if (contents.length() > 100) {
-            throw new InvalidPostException("Contents is over 100 characters. It is too long.");
-        }
+    /**
+     * @return
+     */
+    public ArrayList<Endorsement> getEndorsements() {
+        return endorsements;
+    }
+
+    /**
+     * @return the
+     */
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comment
+     */
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+
+    /**
+     * @param endorsement
+     */
+    public void addEndorsement(Endorsement endorsement){
+        this.endorsements.add(endorsement);
     }
 
     @Override
