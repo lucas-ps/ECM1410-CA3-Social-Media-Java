@@ -19,13 +19,27 @@ public class Post {
      * </pre>
      */
 
-    private int postId;
-    private String contents;
-    private Account author;
+    public int postId;
+    private static int newPostId = 0;
+    public Account author;
+    public String contents;
 
-
-    public Post(){
+    public Post(Account author, String contents) throws InvalidPostException {
+        postId = ++Post.newPostId;
+        this.author = author;
+        isContentsValid(contents);
+        this.contents = contents;
     }
+
+    public static void isContentsValid(String contents) throws InvalidPostException{
+        if (contents.equals("")) {
+            throw new InvalidPostException("Contents is empty.");
+        }
+        if (contents.length() > 100) {
+            throw new InvalidPostException("Contents is over 100 characters. It is too long.");
+        }
+    }
+
 
     @Override
     public String toString() {
