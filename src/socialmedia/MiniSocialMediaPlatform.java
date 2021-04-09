@@ -83,6 +83,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 */
 	String showAccount(String handle) throws HandleNotRecognisedException;
 
+
 	// End Account-related methods ****************************************
 
 	// Post-related methods ****************************************
