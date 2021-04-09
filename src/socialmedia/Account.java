@@ -125,6 +125,15 @@ public class Account implements Serializable {
         return endorsementCount;
     }
 
+    /**
+     * Sets attributes for removed account.
+     */
+    public void clearAccount(){
+        id = -1;
+        handle = null;
+        description = null;
+    }
+
     @Override
     public String toString() {
        return "\nID: " + id + "\nHandle: " + handle + "\nDescription: " + description +
