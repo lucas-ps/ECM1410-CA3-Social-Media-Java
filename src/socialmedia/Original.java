@@ -6,11 +6,13 @@ import java.util.ArrayList;
 public class Original extends Post implements Serializable {
     private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
+    private PostType type;
 
     public Original(Account author, String contents) throws InvalidPostException{
-       this.author = author;
-       isContentsValid(contents);
-       this.contents = contents;
+        super(author, contents);
+        this.endorsements = new ArrayList<Endorsement>();
+        this.comments = new ArrayList<Comment>();
+        this.type = PostType.ORIGINAL;
     }
 
     /**
