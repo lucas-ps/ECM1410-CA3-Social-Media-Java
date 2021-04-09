@@ -18,8 +18,9 @@ public class Account{
         isHandleValid(handle);
         this.handle = handle;
         this.description = description;
-        id = newId;
-        newId = newId++;
+        id = ++Account.newId;
+        userPosts = new ArrayList<>();
+        endorsementCount = 0;
     }
 
     public Account(String handle) throws InvalidHandleException{
