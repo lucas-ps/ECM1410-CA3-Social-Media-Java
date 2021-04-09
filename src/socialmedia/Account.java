@@ -6,13 +6,9 @@ import java.util.ArrayList;
  * Class for account objects.
  */
 public class Account{
-    //TODO: constraints (handle must be unique ==> put some constraints in but need to do the uniqueness)
-    // (ID must be created whilst the account is created and must be unique ==> think ive got this one)
-    // (counting the endorsements an account has)
-    // is an array list the best data type for the posts??
 
     private String description;
-    private int newId = 0;
+    private static int newId = 0;
     private int id;
     private String handle;
     private ArrayList<Post> userPosts;
@@ -48,8 +44,8 @@ public class Account{
         isHandleValid(handle);
         this.handle = handle;
         description = "";
-        id = newId;
-        newId = newId++;
+        id = ++Account.newId;
+        userPosts = new ArrayList<>();
     }
 
     /**
@@ -106,6 +102,10 @@ public class Account{
         this.description = description;
     }
 
+    /**
+     *
+     * @return the description for the account.
+     */
     public String getDescription(){
         return description;
     }
@@ -125,9 +125,8 @@ public class Account{
     }
 
     @Override
-    //ToDo need to check this is the right format ==> it is but we need to sort the endorsement out
     public String toString() {
        return "\nID: " + id + "\nHandle: " + handle + "\nDescription: " + description +
-               "Post count" + userPosts.size() + "\n Endorse count:" + "DUCK" + "\n";
+               "Post count" + userPosts.size() + "\n Endorse count:" + endorsementCount + "\n";
     }
 }
