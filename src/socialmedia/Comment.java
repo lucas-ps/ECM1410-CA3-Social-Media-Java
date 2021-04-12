@@ -1,5 +1,7 @@
 package socialmedia;
 
+import java.util.ArrayList;
+
 public class Comment extends Post{
     private boolean isOrphan;
     private Post parent;

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /**
  * Class for account objects.
+ *
+ * @author 700037512, 700074221
  */
 public class Account implements Serializable {
 

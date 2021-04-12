@@ -3,6 +3,11 @@ package socialmedia;
 import java.io.*;
 import java.util.HashMap;
 
+/**
+ * Class for socialMedia objects.
+ *
+ * @author 700037512, 700074221
+ */
 public class SocialMedia implements Serializable {
     // TODO: (store accounts and be able to delete them given id)
     //TODO: delete an account
