@@ -15,6 +15,11 @@ public class SocialMedia implements Serializable {
     private HashMap<Integer, Account> accounts;
     private HashMap<Integer, Post> posts;
 
+
+    public int getNumberOfAccounts(){
+        return accounts.size();
+    }
+
     public void savePlatform(String filename) throws IOException {
         FileOutputStream out = new FileOutputStream(filename);
         ObjectOutputStream outStream = new ObjectOutputStream(out);
