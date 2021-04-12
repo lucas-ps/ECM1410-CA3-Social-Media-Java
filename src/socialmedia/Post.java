@@ -29,6 +29,8 @@ public class Post implements Serializable {
     private static int newPostId = 0;
     public Account author;
     public String contents;
+    public int endorsementCount;
+    private PostType postType;
 
     /**
      * Constructor for the SocialMediaPlatform posts.
@@ -41,9 +43,12 @@ public class Post implements Serializable {
      */
     public Post(Account author, String contents) throws InvalidPostException, HandleNotRecognisedException {
         postId = ++Post.newPostId;
+        isAuthorValid(author);
         this.author = author;
         isContentsValid(contents);
         this.contents = contents;
+        this.endorsementCount = 0;
+        this.postType = null;
     }
 
     /**
