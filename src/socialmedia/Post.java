@@ -61,7 +61,63 @@ public class Post implements Serializable {
         }
     }
 
+    // TODO: Check in main class if author handle is seen in hashmap
+    /**
+     *Validation method checks if the author of the message is not null.
+     * @param author The account the comment has come from.
+     * @throws HandleNotRecognisedException if the handle does not match to any
+     *                                      account in the system.
+     */
+    public void isAuthorValid(Account author) throws HandleNotRecognisedException {
+        if (author == null) {
+            throw new HandleNotRecognisedException("Account is null.");
+        }
+    }
 
+    /**
+     * Adds an endorsement to the counter for a post.
+     * @throws NotActionablePostException if the ID refers to a endorsement post.
+     *                                      Endorsement posts are not endorsable.
+     *                                      Endorsements are not transitive. For
+     *                                      instance, if post A is endorsed by post
+     *                                      B, and an account wants to endorse B, in
+     *                                      fact, the endorsement must refers to A.
+     */
+    public void addEndorsement() throws NotActionablePostException {
+        isPostEndorsable(this.getPostType());
+        this.endorsementCount++;
+    }
+
+    /**
+     *Used in addEndorsement method.
+     * @return The type of post.
+     */
+    public PostType getPostType(){
+        return postType;
+    }
+
+    /**
+     *Validation method to check if the post is endorsable.
+     * @param postType The type of post.
+     * @throws NotActionablePostException if the ID refers to a endorsement post.
+     *                                     Endorsement posts are not endorsable.
+     *                                     Endorsements are not transitive. For
+     *                                     instance, if post A is endorsed by post
+     *                                     B, and an account wants to endorse B, in
+     *                                     fact, the endorsement must refers to A.
+     */
+    public static void isPostEndorsable(PostType postType) throws NotActionablePostException {
+        if((postType == PostType.ORIGINAL) && (postType == PostType.COMMENT)){
+            return;
+        } else{
+            throw new NotActionablePostException("Attempted to act upon an not-actionable post");
+        }
+    }
+
+    /**
+     *ToString method to show the details of the post.
+     * @return
+     */
     @Override
     public String toString() {
         return "";
