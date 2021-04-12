@@ -70,6 +70,7 @@ public class Original extends Post implements Serializable {
     *  No. endorsements: [number of endorsements received by the post] | No. comments: [number of comments received by the post]
     *  [post message]
     */
+    @Override
     public String toString() {
         return "\nId: " + postId + "\nAccount: " + author.getHandle() + "\nNo. endorsements: " +
                 endorsements.size() + " | No. comments: " + comments.size() + "\n" + contents + "\n";
