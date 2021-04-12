@@ -29,4 +29,22 @@ public class Endorsement extends Post implements Serializable {
         parent.author.addEndorsement(); //see if it works
         this.type = PostType.ENDORSEMENT;
     }
+
+    /**
+     * Returns the parent (original/comment) post of the current endorsement post.
+     * @return The parent of the current endorsement object.
+     */
+    public Post getParent() {
+        return parent;
+    }
+
+    @Override
+    /**
+     * Returns a string for the endorsement in the form "EP@" + [endorsed account handle] + ": " + [endorsed message]
+     * @return The endorsement as a string
+     */
+    public String toString(){
+        String outputStr = "EP@" + this.author.getHandle() + ": " + this.contents;
+        return outputStr;
+    }
 }
