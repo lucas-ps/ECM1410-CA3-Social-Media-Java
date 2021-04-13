@@ -134,6 +134,16 @@ public class Account implements Serializable {
         id = -1;
         handle = null;
         description = null;
+        // TODO: Make all account's posts orphaned
+    }
+
+    //TODO: the documentation
+    /**
+     *
+     * @param newId
+     */
+    public static void setNewId(int newId) {
+        Account.newId = newId;
     }
 
     @Override
