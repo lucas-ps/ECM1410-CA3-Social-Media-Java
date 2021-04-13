@@ -93,6 +93,15 @@ public class Post implements Serializable {
         this.endorsementCount++;
     }
 
+    //TODO: the documentation
+    /**
+     *
+     * @param newPostId
+     */
+    public static void setNewPostId(int newPostId) {
+        Post.newPostId = newPostId;
+    }
+
     /**
      *Used in addEndorsement method.
      * @return The type of post.
@@ -126,5 +135,18 @@ public class Post implements Serializable {
     @Override
     public String toString() {
         return "";
+    }
+
+    /**
+     * Returns the post's author.
+     * @return The Account object corresponding to the post's author
+     */
+    public Account getAuthor() {
+        return author;
+    }
+
+    //TODO: documetentation
+    public int getId() {
+        return this.postId;
     }
 }
