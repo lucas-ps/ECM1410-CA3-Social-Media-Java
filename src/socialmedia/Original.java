@@ -61,7 +61,6 @@ public class Original extends Post implements Serializable {
         this.endorsements.add(endorsement);
     }
 
-    
    /**
     * The method generates a formatted string containing the details of a single
     * post. The format is as follows:
