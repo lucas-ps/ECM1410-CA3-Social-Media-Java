@@ -18,6 +18,10 @@ public class Comment extends Post{
         this.parent = parent;
     }
 
+    public void makeOrphan(){
+        this.isOrphan = true;
+    }
+
     // TODO: Add in indent to comments
     /**
      * The method generates a formated string containing the details of a single
