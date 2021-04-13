@@ -10,10 +10,10 @@ public class Comment extends Post{
     private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
 
-    public Comment(Account author, String contents, boolean isOrphan, Post parent)
+    public Comment(Account author, String contents, Post parent)
             throws InvalidPostException, HandleNotRecognisedException {
         super(author, contents);
-        this.isOrphan = isOrphan;
+        this.isOrphan = false;
         this.type = PostType.COMMENT;
         this.parent = parent;
     }
