@@ -16,16 +16,72 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     private HashMap<String, Account> accounts;
     private HashMap<Integer, Post> posts;
 
-    @Override
-    public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+    // Account/Post getter methods
+    public Account getAccount(int ID) throws AccountIDNotRecognisedException {
         for (Account account : accounts.values()) {
-            if (account.getHandle().equals(handle)){
-                throw new IllegalHandleException("Handle has already been claimed.");
+            if (account.getId() == ID) {
+                return account;
+                }
+            }
+        throw new AccountIDNotRecognisedException("Account ID '" + ID +" not recognised.");
+    }
+
+    public Account getAccount(String handle) throws HandleNotRecognisedException {
+        if (accounts.containsKey(handle)){
+             return accounts.get(handle);
+        } else{
+            throw new HandleNotRecognisedException("Handle '"+ handle +"'not recognised.");
+        }
+    }
+
+    public Post getPost(int ID) throws PostIDNotRecognisedException {
+        if (posts.containsKey(ID)){
+            return posts.get(ID);
+        } else{
+            throw new PostIDNotRecognisedException("Post ID '"+ ID +"' not recognised.");
+        }
+    }
+
+    public ArrayList<Post> getPostsByAuthor(Account author) {
+        ArrayList<Post> postsByAuthor = new ArrayList();
+        for (Post post : posts.values()) {
+            if ((post.getAuthor().getHandle()).equals(author.getHandle())) {
+                postsByAuthor.add(post);
             }
         }
-        Account newAccount = new Account(handle, description);
-        int ID = newAccount.getId();
-        return ID;
+        return postsByAuthor;
+    }
+
+    public void removePosts(ArrayList<Post> posts){
+        for (Post post : posts) {
+            if (post.getPostType().equals(PostType.COMMENT)) {
+                ((Comment) post).makeOrphan();
+                this.posts.remove(post.getId());
+            }
+            else if (post.getPostType().equals(PostType.ORIGINAL)) {
+                ArrayList<Comment> comments = ((Original) post).getComments();
+                for (Comment comment : comments){
+                    // TODO: Change comments under this post to have generic post has been removed parent post
+                }
+                this.posts.remove(post.getId());
+            }
+            else if (post.getPostType().equals(PostType.ENDORSEMENT)) {
+                this.posts.remove(post.getId());
+            }
+        }
+    }
+
+    // Main methods
+    @Override
+    public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+        if (accounts.containsKey(handle)){
+            throw new IllegalHandleException("Handle '"+ handle +"' has already been claimed.");
+        } else{
+            Account newAccount = new Account(handle, description);
+            int ID = newAccount.getId();
+            accounts.put(handle, newAccount);
+            return ID;
+        }
     }
 
     /**
@@ -48,33 +104,19 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      */
     @Override
     public void removeAccount(String handle) throws HandleNotRecognisedException {
-        for (Account account : accounts.values()) {
-            if (account.getHandle().equals(handle)) {
-                account.clearAccount();
-                accounts.remove(account.getId());
-                for (Post post : posts.values()) {
-                    if ((post.getAuthor().getHandle()).equals(account.getHandle())) {
-                        if (post.getPostType().equals(PostType.COMMENT)){
-                            ((Comment) post).makeOrphan();
-                            posts.remove(post.getId());
-                        }
-                    }
-                }
-                return;
-            }
-        }
-        throw new HandleNotRecognisedException("Handle not found");
+        Account accountToBeRemoved = getAccount(handle);
+        ArrayList<Post> postsByAuthor = getPostsByAuthor(accountToBeRemoved);
+        accountToBeRemoved.clearAccount();
+        accounts.remove(handle);
+
+        // Dealing with posts made by this account
+        removePosts(postsByAuthor);
     }
 
     @Override
     public void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException {
-        for (Account account : accounts.values()) {
-            if (account.getHandle().equals(handle)) {
-                account.setDescription(description);
-                return;
-            }
-        }
-        throw new HandleNotRecognisedException("Handle not found");
+        Account accountToUpdate = getAccount(handle);
+        accountToUpdate.setDescription(description);
     }
 
     @Override
@@ -111,69 +153,66 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     }
 
     public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-        for (Account account : accounts.values()) {
-            if (account.getHandle().equals(handle)){
-                throw new IllegalHandleException("Handle has already been claimed.");
-            }
+        if (accounts.containsKey(handle)){
+            throw new IllegalHandleException("Handle '"+ handle +"' has already been claimed.");
+        } else{
+            Account newAccount = new Account(handle);
+            int ID = newAccount.getId();
+            accounts.put(handle, newAccount);
+            return ID;
         }
-        Account newAccount = new Account(handle);
-        int ID = newAccount.getId();
-        return ID;
     }
 
     @Override
     public void removeAccount(int id) throws AccountIDNotRecognisedException {
-        for (Account account : accounts.values()) {
-            if (account.getId() == id) {
-                account.clearAccount();
-                accounts.remove(account.getId());
-                for (Post post : posts.values()) {
-                    if ((post.getAuthor().getHandle()).equals(account.getHandle())) {
-                        if (post.getPostType().equals(PostType.COMMENT)){
-                            ((Comment) post).makeOrphan();
-                            posts.remove(post.getId());
-                        }
-                    }
-                }
-                return;
-            }
-        }
+        Account accountToBeRemoved = getAccount(id);
+
+        ArrayList<Post> postsByAuthor = getPostsByAuthor(accountToBeRemoved);
+        accountToBeRemoved.clearAccount();
+        accounts.remove(accountToBeRemoved.getHandle());
+
+        // Dealing with posts made by this account
+        removePosts(postsByAuthor);
     }
 
     @Override
-    public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
-
+    public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException,
+            IllegalHandleException, InvalidHandleException {
+        Account accountToUpdate = getAccount(oldHandle);
+        accountToUpdate.setHandle(newHandle);
+        accounts.remove(oldHandle);
+        accounts.put(newHandle, accountToUpdate);
     }
 
     @Override
     public String showAccount(String handle) throws HandleNotRecognisedException {
-        for (Account account : accounts.values()) {
-            if (account.getHandle().equals(handle)) {
-             String formattedAccount = account.toString();
-                return formattedAccount;
-            }
-        }
-        throw new HandleNotRecognisedException("Handle not found");
+        Account accountToShow = getAccount(handle);
+        return accountToShow.toString();
     }
 
     @Override
     public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-        for (Account account : accounts.values()) {
-            if (account.getHandle().equals(handle)) {
-                Original newOriginal = new Original(account, message);
-                int ID = newOriginal.getId();
-            }
-        }
-        throw new HandleNotRecognisedException("Handle not found");
+        Account author = getAccount(handle);
+        Original newPost = new Original(author, message); // TODO: Check if the message is validated. It has been we are awesome :)
+        author.addPost(newPost);
+        posts.put(newPost.getId(), newPost);
+        return newPost.getId();
     }
 
     @Override
-    public int endorsePost(String handle, int id) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
-        return 0;
+    public int endorsePost(String handle, int id) throws HandleNotRecognisedException, PostIDNotRecognisedException,
+            NotActionablePostException {
+        Account endorsingAccount = getAccount(handle);
+        Post post = posts.get(id);
+        Account postAuthorAccount = post.getAuthor();
+        Endorsement newEndorsement = new Endorsement(endorsingAccount, post.getContents(), post);
+        posts.put(newEndorsement.getId(), newEndorsement);
+        return newEndorsement.getId();
     }
 
     @Override
-    public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
+    public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
+            PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
         return 0;
     }
 
@@ -194,7 +233,15 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
 
     @Override
     public int getMostEndorsedPost() {
-        return 0;
+        Post mostPopularPost = null;
+        for(Post post : posts.values()){
+            int popularity = 0;
+            if (post.getEndorsementCount() > popularity) {
+                popularity = post.getEndorsementCount();
+                mostPopularPost = post;
+            }
+        }
+        return mostPopularPost.getId();
     }
 
     @Override
@@ -217,27 +264,41 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
 
     @Override
     public void savePlatform(String filename) throws IOException {
-        FileOutputStream out = new FileOutputStream(filename);
-        ObjectOutputStream outStream = new ObjectOutputStream(out);
-        outStream.writeObject(this);
-        outStream.close();
-        out.close();
+        try{
+            FileOutputStream out = new FileOutputStream(filename);
+            ObjectOutputStream outStream = new ObjectOutputStream(out);
+            outStream.writeObject(this);
+            outStream.close();
+            out.close();
+        } catch (IOException e){
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
-        FileInputStream in = new FileInputStream(filename);
-        ObjectInputStream inStream = new ObjectInputStream(in);
-        SocialMedia deserialized = (SocialMedia) inStream.readObject();
-        this.accounts = deserialized.accounts;
-        this.posts = deserialized.posts;
-        inStream.close();
-        in.close();
+        try {
+            FileInputStream in = new FileInputStream(filename);
+            ObjectInputStream inStream = new ObjectInputStream(in);
+            SocialMedia deserialized = (SocialMedia) inStream.readObject();
+            this.accounts = deserialized.accounts;
+            this.posts = deserialized.posts;
+            inStream.close();
+            in.close();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found exception.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void erasePlatform(){
-        accounts = new HashMap<Integer, Account>();
+        accounts = new HashMap<String, Account>();
         posts = new HashMap<Integer, Post>();
         Account.setNewId(0);
         Post.setNewPostId(0);
