@@ -8,11 +8,7 @@ import java.io.Serializable;
  * @author 700037512, 700074221
  */
 public class Post implements Serializable {
-    //TODO: Constraints (postId goes up in chronological order!! Just realised this may be tricky)
-    // (100 character limit on contents)
-    // Methods (constructor to create posts posts)
-    // (remove from list using postId)
-    // the show post children details method looks hard so that's going to be difficult, need a string builder
+    // TODO: the show post children details method looks hard so that's going to be difficult, need a string builder
     /*
      * The method builds a StringBuilder showing the details of the current post and
      * all its children posts. The format is as follows:
@@ -61,8 +57,6 @@ public class Post implements Serializable {
         this.postType = PostType.DELETED;
     }
 
-
-    // TODO: Check in main class if author handle is seen in hashmap
     /**
      *Validation method checks if the author of the message is not null.
      * @param author The account the comment has come from.
