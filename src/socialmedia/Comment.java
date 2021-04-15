@@ -2,6 +2,11 @@ package socialmedia;
 
 import java.util.ArrayList;
 
+/**
+ * Class for comment objects.
+ *
+ * @author 700037512, 700074221
+ */
 public class Comment extends Post{
     private boolean isOrphan;
     private Post parent;
@@ -10,6 +15,16 @@ public class Comment extends Post{
     private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
 
+    /**
+     *
+     * @param author The account that created the post.
+     * @param contents The contents of the comment message.
+     * @param parent The post that the comment refers too.
+     * @throws InvalidPostException if the message is empty or has more than
+     * 	                             100 characters.
+     * @throws HandleNotRecognisedException if the handle does not match to any
+     *                                      account in the system.
+     */
     public Comment(Account author, String contents, Post parent)
             throws InvalidPostException, HandleNotRecognisedException {
         super(author, contents);

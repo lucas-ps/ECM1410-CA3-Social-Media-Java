@@ -24,6 +24,13 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         throw new AccountIDNotRecognisedException("Account ID '" + ID +" not recognised.");
     }
 
+    /**
+     * Finds an account object from accounts hashmap using the account's handle.
+     * @param  handle the string handle of the account being searched for.
+     * @return the matching account object found if one is found.
+     * @throws AccountIDNotRecognisedException if the ID does not match to any
+     *                                         account in the system.
+     */
     public Account getAccount(String handle) throws HandleNotRecognisedException {
         if (accounts.containsKey(handle)){
              return accounts.get(handle);
@@ -32,6 +39,13 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         }
     }
 
+    /**
+     * Finds a post object from the posts hashmap using the post's ID.
+     * @param  ID The int ID of the post being searched for
+     * @return the matching post object if one is found
+     * @throws PostIDNotRecognisedException if the ID does not match to any
+     *                                      post on the system
+     */
     public Post getPost(int ID) throws PostIDNotRecognisedException {
         if (posts.containsKey(ID)){
             return posts.get(ID);
@@ -40,6 +54,11 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         }
     }
 
+    /**
+     * Gets all posts by a specified author
+     * @param  author the author of the posts that are being searched for
+     * @return an ArrayList of posts that were found
+     */
     public ArrayList<Post> getPostsByAuthor(Account author) {
         ArrayList<Post> postsByAuthor = new ArrayList();
         for (Post post : posts.values()) {
@@ -71,6 +90,20 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     }
 
     // Main methods
+
+    /**
+     * The method creates an account in the platform with the given handle.
+     * <p>
+     * The state of this SocialMediaPlatform must be be unchanged if any exceptions
+     * are thrown.
+     *
+     * @param handle account's handle.
+     * @throws IllegalHandleException if the handle already exists in the platform.
+     * @throws InvalidHandleException if the new handle is empty, has more than 30
+     *                                characters, or has white spaces.
+     * @return the ID of the created account.
+     *
+     */
     @Override
     public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
         if (accounts.containsKey(handle)){

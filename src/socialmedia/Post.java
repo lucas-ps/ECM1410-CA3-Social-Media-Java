@@ -87,8 +87,8 @@ public class Post implements Serializable {
     }
 
     /**
-     *
-     * @param newPostId
+     * Setter method for NewPostId.
+     * @param newPostId Internal counter to set postIds in chronological order.
      */
     public static void setNewPostId(int newPostId) {
         Post.newPostId = newPostId;
@@ -121,7 +121,8 @@ public class Post implements Serializable {
     }
 
     /**
-     * @return
+     * Getter method for endorsementCount
+     * @return Endorsement count
      */
     public int getEndorsementCount() {
         return endorsementCount;
@@ -129,7 +130,7 @@ public class Post implements Serializable {
 
     /**
      *ToString method to show the details of the post.
-     * @return
+     * @return Blank string
      */
     @Override
     public String toString() {
@@ -144,11 +145,18 @@ public class Post implements Serializable {
         return author;
     }
 
-    //TODO: documetentation
+    /**
+     * Getter method for post id.
+     * @return Id of the post.
+     */
     public int getId() {
         return this.postId;
     }
 
+    /**
+     * Getter method for the Contents of the post
+     * @return Contents of the message.
+     */
     public String getContents() {
         return contents;
     }

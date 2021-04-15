@@ -3,7 +3,7 @@ package socialmedia;
 import java.io.Serializable;
 
 /**
- * Class for endorsement object.
+ * Class for endorsement objects.
  *
  * @author 700037512, 700074221
  */
@@ -20,6 +20,12 @@ public class Endorsement extends Post implements Serializable {
      * 	                             100 characters.
      * @throws HandleNotRecognisedException if the handle does not match to any
      * 	                                    account in the system.
+     * @throws NotActionablePostException if the ID refers to a endorsement post.
+     *                                    Endorsement posts are not endorsable.
+     *                                    Endorsements are not transitive. For
+     *                                    instance, if post A is endorsed by post
+     *                                    B, and an account wants to endorse B, in
+     *                                    fact, the endorsement must refers to A.
      */
     public Endorsement(Account author, String contents, Post parent)throws
             HandleNotRecognisedException {

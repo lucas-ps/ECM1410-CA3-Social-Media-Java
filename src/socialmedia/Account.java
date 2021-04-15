@@ -137,14 +137,17 @@ public class Account implements Serializable {
         userPosts = new ArrayList<>();
     }
 
+    /**
+     * Adds a post object to the user's post ArrayList.
+     * @param post The new post object to be added
+     */
     public void addPost(Post post) {
         userPosts.add(post);
     }
 
-    //TODO: the documentation
     /**
-     *
-     * @param newId
+     * Sets new ID for an account object.
+     * @param newId the new ID.
      */
     public static void setNewId(int newId) {
         Account.newId = newId;

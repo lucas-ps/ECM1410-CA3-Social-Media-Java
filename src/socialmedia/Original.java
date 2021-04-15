@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Class for original object.
+ * Class for original objects.
  *
  * @author 700037512, 700074221
  */
