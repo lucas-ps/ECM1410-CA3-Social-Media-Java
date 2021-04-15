@@ -39,6 +39,10 @@ public class Endorsement extends Post implements Serializable {
         return parent;
     }
 
+    public void removeEndorsementFromParent(){
+        this.getParent().removeEndorsement();
+    }
+
     @Override
     /**
      * Returns a string for the endorsement in the form "EP@" + [endorsed account handle] + ": " + [endorsed message]
