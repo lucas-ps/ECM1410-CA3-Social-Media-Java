@@ -40,30 +40,15 @@ public class Post implements Serializable {
      * @throws HandleNotRecognisedException if the handle does not match to any
      * 	                                    account in the system.
      */
-    public Post(Account author, String contents) throws InvalidPostException, HandleNotRecognisedException {
+    public Post(Account author, String contents) throws HandleNotRecognisedException {
         postId = ++Post.newPostId;
         isAuthorValid(author);
         this.author = author;
-        isContentsValid(contents);
         this.contents = contents;
         this.endorsementCount = 0;
         this.postType = null;
     }
 
-    /**
-     *Validation method checks if the contents of the message is valid.
-     * @param contents What the author has said.
-     * @throws InvalidPostException  if the message is empty or has more than
-     * 	                             100 characters.
-     */
-    public static void isContentsValid(String contents) throws InvalidPostException{
-        if (contents.equals("")) {
-            throw new InvalidPostException("Contents is empty.");
-        }
-        if (contents.length() > 100) {
-            throw new InvalidPostException("Contents is over 100 characters. It is too long.");
-        }
-    }
 
     // TODO: Check in main class if author handle is seen in hashmap
     /**
