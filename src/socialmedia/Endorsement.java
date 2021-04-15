@@ -27,14 +27,15 @@ public class Endorsement extends Post implements Serializable {
      *                                    B, and an account wants to endorse B, in
      *                                    fact, the endorsement must refers to A.
      */
-    public Endorsement(Account author, String contents, Post parent)throws
-            HandleNotRecognisedException {
+    public Endorsement(Account author, String contents, Post parent) throws
+            HandleNotRecognisedException, NotActionablePostException {
         super(author, contents);
         this.contents = parent.contents;
         this.parent = parent;
         parent.author.addEndorsement(); //see if it works
         this.type = PostType.ENDORSEMENT;
-        // TODO: Add endorsement to necessary arraylists
+        author.addEndorsement();
+        parent.addEndorsement();
     }
 
     /**
