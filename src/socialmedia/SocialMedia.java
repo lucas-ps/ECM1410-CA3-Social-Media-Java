@@ -14,7 +14,32 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     private HashMap<String, Account> accounts;
     private HashMap<Integer, Post> posts;
 
+    public SocialMedia(){
+        accounts = new HashMap<String, Account> ();
+        posts = new HashMap<Integer, Post> ();
+    }
     // Account/Post getter methods
+
+    /**
+     * Creates a dummy post to set as a parent for comments who's parent has been deleted.
+     * @return the dummy post found/newly created.
+     */
+    public Post dummyPost() {
+        if (posts.containsKey(-1)) {
+            return posts.get(-1);
+        } else {
+            Post dummyPost = new Post(-1);
+            return dummyPost;
+        }
+    }
+
+    /**
+     * Finds an account object from accounts hashmap using the account's ID.
+     * @param  ID the ID of the account being searched for.
+     * @return the matching account object found if one is found.
+     * @throws AccountIDNotRecognisedException if the ID does not match to any
+     *                                         account in the system.
+     */
     public Account getAccount(int ID) throws AccountIDNotRecognisedException {
         for (Account account : accounts.values()) {
             if (account.getId() == ID) {
@@ -69,22 +94,46 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         return postsByAuthor;
     }
 
+    /**
+     * Remove comments and endorsements that were children of a removed post.
+     * @param comments the ArrayList of comments to be removed.
+     * @param endorsements the ArrayList of endorsements to be removed.
+     */
+    public void removeCommentsAndEndorsements(ArrayList<Comment> comments, ArrayList<Endorsement> endorsements) {
+        // Remove comments that were children the removed post
+        for (Comment comment : comments){
+            comment.makeOrphan();
+            comment.setParent(dummyPost());
+        }
+        // Remove endorsements that were children the removed post
+        for (Endorsement endorsement : endorsements){
+            this.posts.remove(endorsement.getId());
+        }
+    }
+
+
+    /**
+     * Removes posts in a provided ArrayList (helper method).
+     * @param posts the ArrayList of posts to be removed.
+     */
     public void removePosts(ArrayList<Post> posts){
         for (Post post : posts) {
             if (post.getPostType().equals(PostType.COMMENT)) {
-                ((Comment) post).makeOrphan();
+                ArrayList<Endorsement> endorsements = ((Comment) post).getEndorsements();
+                ArrayList<Comment> comments = ((Comment) post).getComments();
+                removeCommentsAndEndorsements(comments, endorsements);
                 this.posts.remove(post.getId());
                 // TODO: change message to generic message for parent post
             }
             else if (post.getPostType().equals(PostType.ORIGINAL)) {
                 ArrayList<Comment> comments = ((Original) post).getComments();
-                for (Comment comment : comments){
-                    // TODO: Change comments under this post to have generic post has been removed parent post
-                }
+                ArrayList<Endorsement> endorsements = ((Original) post).getEndorsements();
+                removeCommentsAndEndorsements(comments, endorsements);
                 this.posts.remove(post.getId());
             }
             else if (post.getPostType().equals(PostType.ENDORSEMENT)) {
                 this.posts.remove(post.getId());
+                ((Endorsement) post).removeEndorsementFromParent();
             }
         }
     }
@@ -226,7 +275,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     @Override
     public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
         Account author = getAccount(handle);
-        Original newPost = new Original(author, message); // TODO: Check if the message is validated. It has been we are awesome :)
+        Original newPost = new Original(author, message);
         author.addPost(newPost);
         posts.put(newPost.getId(), newPost);
         return newPost.getId();
@@ -246,17 +295,25 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     @Override
     public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
             PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
-        return 0;
+        Account commentingAccount = getAccount(handle);
+        Comment newComment = new Comment(commentingAccount, message, getPost(id));
+        posts.put(newComment.getId(), newComment);
+        return newComment.getId();
     }
 
     @Override
     public void deletePost(int id) throws PostIDNotRecognisedException {
-
+        Post postToRemove = getPost(id);
+        ArrayList<Post> posts = new ArrayList();
+        posts.add(postToRemove);
+        removePosts(posts);
     }
 
     @Override
     public String showIndividualPost(int id) throws PostIDNotRecognisedException {
-        return null;
+        Post post = getPost(id);
+        String stringyPost = post.toString();
+        return stringyPost;
     }
 
     @Override
