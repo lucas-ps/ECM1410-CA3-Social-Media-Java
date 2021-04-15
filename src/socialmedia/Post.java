@@ -49,6 +49,18 @@ public class Post implements Serializable {
         this.postType = null;
     }
 
+    /**
+     * Constructor for the SocialMediaPlatform dummy post for deleted posts.
+     * @param id ID assigned to a deleted post.
+     *
+     */
+    public Post(int id) {
+        this.postId = id;
+        this.author = null;
+        this.contents = "The original content was removed from the system and is no longer available.";
+        this.postType = PostType.DELETED;
+    }
+
 
     // TODO: Check in main class if author handle is seen in hashmap
     /**

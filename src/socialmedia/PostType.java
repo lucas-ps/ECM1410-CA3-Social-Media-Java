@@ -3,5 +3,6 @@ package socialmedia;
 public enum PostType {
     ORIGINAL,
     COMMENT,
-    ENDORSEMENT
+    ENDORSEMENT,
+    DELETED
 }
