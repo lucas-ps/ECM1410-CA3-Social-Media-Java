@@ -34,13 +34,40 @@ public class Comment extends Post{
         }
     }
 
+    /**
+     * Returns the ArrayList of Endorsement objects corresponding to the post.
+     * @return all endorsements for the current post
+     */
+    public ArrayList<Endorsement> getEndorsements() {
+        return endorsements;
+    }
+
+
+    /**
+     * Makes a comment an orphan when the post it refers to is deleted.
+     */
     public void makeOrphan(){
         this.isOrphan = true;
     }
 
-    // TODO: Add in indent to comments
     /**
-     * The method generates a formated string containing the details of a single
+     * Getter method for Comments.
+     * @return an array list of comments.
+     */
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    /**
+     * Setter method for Parent post so it can be changed if the parent post is deleted.
+     * @param parent Post the comment refers to.
+     */
+    public void setParent(Post parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * The method generates a formatted string containing the details of a single
      * post. The format is as follows:
      *  ID: [post ID]
      *  Account: [account handle]
