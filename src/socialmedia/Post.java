@@ -128,6 +128,13 @@ public class Post implements Serializable {
     }
 
     /**
+     * @return
+     */
+    public int getEndorsementCount() {
+        return endorsementCount;
+    }
+
+    /**
      *ToString method to show the details of the post.
      * @return
      */
@@ -147,5 +154,9 @@ public class Post implements Serializable {
     //TODO: documetentation
     public int getId() {
         return this.postId;
+    }
+
+    public String getContents() {
+        return contents;
     }
 }
