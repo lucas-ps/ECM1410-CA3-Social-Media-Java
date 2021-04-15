@@ -134,7 +134,12 @@ public class Account implements Serializable {
         id = -1;
         handle = null;
         description = null;
+        userPosts = new ArrayList<>();
         // TODO: Make all account's posts orphaned
+    }
+
+    public void addPost(Post post) {
+        userPosts.add(post);
     }
 
     //TODO: the documentation
