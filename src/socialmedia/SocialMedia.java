@@ -1,7 +1,7 @@
 package socialmedia;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Class for socialMedia objects.
@@ -11,8 +11,9 @@ import java.util.HashMap;
 public class SocialMedia implements SocialMediaPlatform, Serializable  {
     // TODO: (store accounts and be able to delete them given id)
     // TODO: delete an account
-    //TODO: constraints (handle must be unique ==> put some constraints in but need to do the uniqueness)
-    private HashMap<Integer, Account> accounts;
+    // TODO: constraints (handle must be unique ==> put some constraints in but need to do the uniqueness)
+    // TODO: Store accounts hashmap as <handle, account>
+    private HashMap<String, Account> accounts;
     private HashMap<Integer, Post> posts;
 
     @Override
@@ -27,6 +28,24 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         return ID;
     }
 
+    /**
+     * The method removes the post from the platform. When a post is removed, all
+     * its endorsements should be removed as well. All replies to this post should
+     * be updated by replacing the reference to this post by a generic empty post.
+     * <p>
+     * The generic empty post message should be "The original content was removed
+     * from the system and is no longer available.". This empty post is just a
+     * replacement placeholder for the post which a reply refers to. Empty posts
+     * should not be linked to any account and cannot be acted upon, i.e., it cannot
+     * be available for endorsements or replies.
+     * <p>
+     * The state of this SocialMediaPlatform must be be unchanged if any exceptions
+     * are thrown.
+     *
+     * @param handle handle of post to be removed.
+     * @throws PostIDNotRecognisedException if the ID does not match to any post in
+     *                                      the system.
+     */
     @Override
     public void removeAccount(String handle) throws HandleNotRecognisedException {
         for (Account account : accounts.values()) {

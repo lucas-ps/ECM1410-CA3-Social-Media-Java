@@ -36,8 +36,7 @@ public class Post implements Serializable {
      * Constructor for the SocialMediaPlatform posts.
      * @param author Account that created the post.
      * @param contents Content of the post.
-     * @throws InvalidPostException  if the message is empty or has more than
-     * 	                             100 characters.
+     *
      * @throws HandleNotRecognisedException if the handle does not match to any
      * 	                                    account in the system.
      */
