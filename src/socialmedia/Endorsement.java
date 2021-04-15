@@ -21,13 +21,14 @@ public class Endorsement extends Post implements Serializable {
      * @throws HandleNotRecognisedException if the handle does not match to any
      * 	                                    account in the system.
      */
-    public Endorsement(Account author, String contents, Original parent) throws InvalidPostException,
+    public Endorsement(Account author, String contents, Post parent)throws
             HandleNotRecognisedException {
         super(author, contents);
         this.contents = parent.contents;
         this.parent = parent;
         parent.author.addEndorsement(); //see if it works
         this.type = PostType.ENDORSEMENT;
+        // TODO: Add endorsement to necessary arraylists
     }
 
     /**
