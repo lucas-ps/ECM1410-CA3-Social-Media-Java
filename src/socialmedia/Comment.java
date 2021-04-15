@@ -17,6 +17,7 @@ public class Comment extends Post{
         this.isOrphan = false;
         this.type = PostType.COMMENT;
         this.parent = parent;
+        this.endorsements = new ArrayList<Endorsement>();
     }
 
     /**
