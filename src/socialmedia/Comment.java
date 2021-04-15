@@ -13,6 +13,7 @@ public class Comment extends Post{
     public Comment(Account author, String contents, Post parent)
             throws InvalidPostException, HandleNotRecognisedException {
         super(author, contents);
+        isContentsValid(contents);
         this.isOrphan = false;
         this.type = PostType.COMMENT;
         this.parent = parent;
