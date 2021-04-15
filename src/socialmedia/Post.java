@@ -88,8 +88,10 @@ public class Post implements Serializable {
         isPostEndorsable(this.getPostType());
         this.endorsementCount++;
     }
+    public void removeEndorsement() {
+        this.endorsementCount--;
+    }
 
-    //TODO: the documentation
     /**
      *
      * @param newPostId
@@ -117,7 +119,7 @@ public class Post implements Serializable {
      *                                     fact, the endorsement must refers to A.
      */
     public static void isPostEndorsable(PostType postType) throws NotActionablePostException {
-        if((postType == PostType.ORIGINAL) && (postType == PostType.COMMENT)){
+        if((postType.equals(PostType.ORIGINAL)) || (postType.equals(PostType.COMMENT))){
             return;
         } else{
             throw new NotActionablePostException("Attempted to act upon an not-actionable post");
