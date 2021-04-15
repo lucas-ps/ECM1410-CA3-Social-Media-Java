@@ -24,6 +24,7 @@ public class Original extends Post implements Serializable {
      */
     public Original(Account author, String contents) throws InvalidPostException, HandleNotRecognisedException {
         super(author, contents);
+        isContentsValid(contents);
         this.endorsements = new ArrayList<Endorsement>();
         this.comments = new ArrayList<Comment>();
         this.type = PostType.ORIGINAL;
