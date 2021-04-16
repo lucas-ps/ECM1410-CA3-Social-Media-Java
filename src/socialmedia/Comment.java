@@ -1,5 +1,6 @@
 package socialmedia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,8 @@ import java.util.ArrayList;
  *
  * @author 700037512, 700074221
  */
-public class Comment extends Post{
+public class Comment extends Post implements Serializable {
+    //TODO: need to sort out adding comments to parent arraylist as it isnt currently being used
     private boolean isOrphan;
     private Post parent;
     private Original originalPost;
@@ -33,6 +35,7 @@ public class Comment extends Post{
         this.type = PostType.COMMENT;
         this.parent = parent;
         this.endorsements = new ArrayList<Endorsement>();
+        this.comments = new ArrayList<Comment>();
     }
 
     /**
@@ -72,6 +75,19 @@ public class Comment extends Post{
      */
     public ArrayList<Comment> getComments() {
         return comments;
+    }
+
+    /**
+     * Adds a comment to the current post's comment ArrayList.
+     * @param comment the contents of the comment.
+     */
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+
+    //TODO: docmuentation
+    public Original getOriginalPost() {
+        return originalPost;
     }
 
     /**

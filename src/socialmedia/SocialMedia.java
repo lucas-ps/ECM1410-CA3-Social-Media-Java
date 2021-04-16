@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class SocialMedia implements SocialMediaPlatform, Serializable  {
     // TODO: delete an account
+    // TODO: make sure the comment method adds to the arraylist as they are used in other methods
     // TODO: showchildpostdetail method
     private HashMap<String, Account> accounts;
     private HashMap<Integer, Post> posts;
@@ -298,6 +299,8 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         Account commentingAccount = getAccount(handle);
         Comment newComment = new Comment(commentingAccount, message, getPost(id));
         posts.put(newComment.getId(), newComment);
+        //TODO: fix this method so we can add comments to both original and comments (problem with using post as the parent type)
+        newComment.getOriginalPost().addComment(newComment);
         return newComment.getId();
     }
 
@@ -316,6 +319,19 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         return stringyPost;
     }
 
+
+    // TODO: the show post children details method looks hard so that's going to be difficult, need a string builder
+    /*
+     * The method builds a StringBuilder showing the details of the current post and
+     * all its children posts. The format is as follows:
+     *
+     * <pre>
+     * {@link //#showIndividualPost(int) showIndividualPost(id)}
+     * |
+     * [for reply: replies to the post sorted by ID]
+     * |  > {@link //#showIndividualPost(int) showIndividualPost(reply)}
+     * </pre>
+     */
     @Override
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
         return null;
