@@ -35,6 +35,10 @@ public class Comment extends Post{
         this.endorsements = new ArrayList<Endorsement>();
     }
 
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
     /**
      *Validation method checks if the contents of the message is valid.
      * @param contents What the author has said.
