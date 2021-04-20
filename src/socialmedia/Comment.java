@@ -24,6 +24,7 @@ public class Comment extends Post{
      * 	                             100 characters.
      * @throws HandleNotRecognisedException if the handle does not match to any
      *                                      account in the system.
+     * @throws NotActionablePostException //TODO: this
      */
     public Comment(Account author, String contents, Post parent)
             throws InvalidPostException, HandleNotRecognisedException, NotActionablePostException {

@@ -2,6 +2,7 @@ package socialmedia;
 
 import java.io.*;
 import java.util.*;
+import java.lang.*;
 
 /**
  * Class for socialMedia objects.
@@ -12,6 +13,9 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     private HashMap<String, Account> accounts;
     private HashMap<Integer, Post> posts;
 
+    /**
+     * Constructor method for the social media platform to implement the interfaces.
+     */
     public SocialMedia(){
         accounts = new HashMap<String, Account> ();
         posts = new HashMap<Integer, Post> ();
@@ -162,24 +166,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         }
     }
 
-    /**
-     * The method removes the post from the platform. When a post is removed, all
-     * its endorsements should be removed as well. All replies to this post should
-     * be updated by replacing the reference to this post by a generic empty post.
-     * <p>
-     * The generic empty post message should be "The original content was removed
-     * from the system and is no longer available.". This empty post is just a
-     * replacement placeholder for the post which a reply refers to. Empty posts
-     * should not be linked to any account and cannot be acted upon, i.e., it cannot
-     * be available for endorsements or replies.
-     * <p>
-     * The state of this SocialMediaPlatform must be be unchanged if any exceptions
-     * are thrown.
-     *
-     * @param handle handle of post to be removed.
-     * @throws PostIDNotRecognisedException if the ID does not match to any post in
-     *                                      the system.
-     */
     @Override
     public void removeAccount(String handle) throws HandleNotRecognisedException {
         Account accountToBeRemoved = getAccount(handle);
@@ -310,6 +296,80 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         return stringyPost;
     }
 
+    /**
+     * The method builds a StringBuilder showing the details of the current post and
+     * all its children posts. The format is as follows:
+     *
+     * <pre>
+     * {@link #showIndividualPost(int) showIndividualPost(id)}
+     * |
+     * [for reply: replies to the post sorted by ID]
+     * |  > {@link #showIndividualPost(int) showIndividualPost(reply)}
+     * </pre>
+     *
+     * See an example:
+     *
+     * <pre>
+     * ID: 1
+     * Account: user1
+     * No. endorsements: 2 | No. comments: 3
+     * I like examples.
+     * |
+     * | > ID: 3
+     *     Account: user2
+     *     No. endorsements: 0 | No. comments: 1
+     *     No more than me...
+     *     |
+     *     | > ID: 5
+     *         Account: user1
+     *         No. endorsements: 0 | No. comments: 1
+     *         I can prove!
+     *         |
+     *         | > ID: 6
+     *             Account: user2
+     *             No. endorsements: 0 | No. comments: 0
+     *             prove it
+     * | > ID: 4
+     *     Account: user3
+     *     No. endorsements: 4 | No. comments: 0
+     *     Can't you do better than this?
+     *
+     * | > ID: 7
+     *     Account: user5
+     *     No. endorsements: 0 | No. comments: 1
+     *     where is the example?
+     *     |
+     *     | > ID: 10
+     *         Account: user1
+     *         No. endorsements: 0 | No. comments: 0
+     *         This is the example!
+     * </pre>
+     *
+     * Continuing with the example, if the method is called for post ID=5
+     * ({@code showIndividualPost(5)}), the return would be:
+     *
+     * <pre>
+     * ID: 5
+     * Account: user1
+     * No. endorsements: 0 | No. comments: 1
+     * I can prove!
+     * |
+     * | > ID: 6
+     *     Account: user2
+     *     No. endorsements: 0 | No. comments: 0
+     *     prove it
+     * </pre>
+     *
+     * @param id of the post to be shown.
+     * @return a formatted StringBuilder containing the details of the post and its
+     *         children.
+     * @throws PostIDNotRecognisedException if the ID does not match to any post in
+     *                                      the system.
+     * @throws NotActionablePostException   if the ID refers to an endorsement post.
+     *                                      Endorsement posts do not have children
+     *                                      since they are not endorsable nor
+     *                                      commented.
+     */
     @Override
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
         return null;
