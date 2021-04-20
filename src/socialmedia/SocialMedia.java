@@ -371,8 +371,54 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      *                                      commented.
      */
     @Override
-    public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
-        return null;
+    public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException,
+            NotActionablePostException {
+        StringBuilder showPostChildren = new StringBuilder();
+        int indentationLevel = 0;
+        for (int i = 0; i < posts.size(); i++){
+            if (posts.get(i).getId() ==id){
+                showPostChildren.append(posts.get(i).toString());
+                Post post = posts.get(i);
+                if (post.getPostType().equals(PostType.COMMENT)) {
+                    postHelper(((Comment)post).getComments(), indentationLevel, showPostChildren);
+                } else {
+                    postHelper(((Original)post).getComments(), indentationLevel, showPostChildren);
+                }
+            }
+        }
+        return showPostChildren;
+    }
+
+
+    /**
+     * Helper method for showPostChildrenDetails, iterates trough provided comments ArrayList, sorts out indentation,
+     * recursively calls showPostChildrenDetails.
+     * @param comments The comment ArrayList provided for the post.
+     * @param indentationLevel The level of indentation on the post.
+     * @param showPostChildren Stringbuilder for the ShowPostChildrenDetails method.
+     * @return
+     * https://www.logicbig.com/how-to/java-string/java-indent-string.html
+     * https://www.logicbig.com/tutorials/core-java-tutorial/java-12-changes/string-changes.html
+     */
+    public static StringBuilder postHelper(ArrayList<Comment> comments, int indentationLevel,
+                                           StringBuilder showPostChildren ) {
+        // TODO: Check if PostType.DELETED
+        // TODO: Make sure the string is formatted correctly
+
+        for (Comment comment: comments){
+            String commentString = "";
+            if (indentationLevel >= 1) {
+                commentString += "| \n" +
+                                 "| > ";
+            }
+            commentString += comment.toString();
+            commentString.indent(indentationLevel);
+            showPostChildren.append(commentString);
+            if(!(comment.getComments().isEmpty())){
+                postHelper(comment.getComments(),indentationLevel+1, showPostChildren);
+            }
+        }
+        return showPostChildren;
     }
 
     @Override
