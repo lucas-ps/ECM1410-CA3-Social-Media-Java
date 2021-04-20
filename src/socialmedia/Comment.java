@@ -26,13 +26,15 @@ public class Comment extends Post{
      *                                      account in the system.
      */
     public Comment(Account author, String contents, Post parent)
-            throws InvalidPostException, HandleNotRecognisedException {
+            throws InvalidPostException, HandleNotRecognisedException, NotActionablePostException {
         super(author, contents);
         isContentsValid(contents);
         this.isOrphan = false;
         this.type = PostType.COMMENT;
         this.parent = parent;
         this.endorsements = new ArrayList<Endorsement>();
+        parent.addComment(this);
+        // TODO: Add to parent's comment array
     }
 
     public void addComment(Comment comment) {
