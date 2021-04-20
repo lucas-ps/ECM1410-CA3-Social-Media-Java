@@ -8,18 +8,6 @@ import java.io.Serializable;
  * @author 700037512, 700074221
  */
 public class Post implements Serializable {
-    // TODO: the show post children details method looks hard so that's going to be difficult, need a string builder
-    /*
-     * The method builds a StringBuilder showing the details of the current post and
-     * all its children posts. The format is as follows:
-     *
-     * <pre>
-     * {@link //#showIndividualPost(int) showIndividualPost(id)}
-     * |
-     * [for reply: replies to the post sorted by ID]
-     * |  > {@link //#showIndividualPost(int) showIndividualPost(reply)}
-     * </pre>
-     */
 
     public int postId;
     private static int newPostId = 0;

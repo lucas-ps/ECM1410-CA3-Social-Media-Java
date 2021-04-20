@@ -9,8 +9,6 @@ import java.util.*;
  * @author 700037512, 700074221
  */
 public class SocialMedia implements SocialMediaPlatform, Serializable  {
-    // TODO: delete an account
-    // TODO: showchildpostdetail method
     private HashMap<String, Account> accounts;
     private HashMap<Integer, Post> posts;
 
@@ -123,7 +121,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
                 ArrayList<Comment> comments = ((Comment) post).getComments();
                 removeCommentsAndEndorsements(comments, endorsements);
                 this.posts.remove(post.getId());
-                // TODO: change message to generic message for parent post
             }
             else if (post.getPostType().equals(PostType.ORIGINAL)) {
                 ArrayList<Comment> comments = ((Original) post).getComments();
@@ -189,9 +186,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         ArrayList<Post> postsByAuthor = getPostsByAuthor(accountToBeRemoved);
         accountToBeRemoved.clearAccount();
         accounts.remove(handle);
-        //TODO: have we removed everything we need too? like in array list as well as hash maps call the remove post method
-
-        // Dealing with posts made by this account
         removePosts(postsByAuthor);
     }
 
