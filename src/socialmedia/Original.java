@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @author 700037512, 700074221
  */
 public class Original extends Post implements Serializable {
+    //why do we need an array list of comments again
     private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
     private PostType type;
@@ -76,6 +77,7 @@ public class Original extends Post implements Serializable {
     public void addEndorsement(Endorsement endorsement){
         this.endorsements.add(endorsement);
     }
+
 
    /**
     * The method generates a formatted string containing the details of a single

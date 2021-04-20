@@ -79,6 +79,8 @@ public class Post implements Serializable {
         isPostEndorsable(this.getPostType());
         this.endorsementCount++;
     }
+
+    // TODO: documentation
     public void removeEndorsement() {
         this.endorsementCount--;
     }
@@ -113,7 +115,7 @@ public class Post implements Serializable {
         if((postType.equals(PostType.ORIGINAL)) || (postType.equals(PostType.COMMENT))){
             return;
         } else{
-            throw new NotActionablePostException("Attempted to act upon an not-actionable post");
+            throw new NotActionablePostException("Attempted to act upon an not-actionable post.");
         }
     }
 
@@ -157,4 +159,5 @@ public class Post implements Serializable {
     public String getContents() {
         return contents;
     }
+
 }

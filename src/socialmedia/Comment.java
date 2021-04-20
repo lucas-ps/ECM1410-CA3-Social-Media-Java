@@ -34,12 +34,22 @@ public class Comment extends Post{
         this.type = PostType.COMMENT;
         this.parent = parent;
         this.endorsements = new ArrayList<Endorsement>();
+        this.comments = new ArrayList<Comment>();
         parent.addComment(this);
         // TODO: Add to parent's comment array
     }
 
-    public void addComment(Comment comment) {
+    /**
+     * Adds a comment to the current post's comment ArrayList.
+     * @param comment the contents of the comment.
+     */
+    public void addComment(Comment comment){
         this.comments.add(comment);
+    }
+
+    //TODO: docmuentation
+    public Original getOriginalPost() {
+        return originalPost;
     }
 
     /**
