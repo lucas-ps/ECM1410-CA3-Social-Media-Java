@@ -45,6 +45,15 @@ public class Post implements Serializable {
         this.postType = PostType.DELETED;
     }
 
+    // TODO: Documentation
+    public void addComment(Comment comment) throws NotActionablePostException {
+        if (this.postType.equals(PostType.COMMENT) || this.postType.equals((PostType.ORIGINAL))){
+            ((Comment) this).addComment(comment);
+        } else {
+            throw new NotActionablePostException("This post cannot be commented on.");
+        }
+    }
+
     /**
      *Validation method checks if the author of the message is not null.
      * @param author The account the comment has come from.
