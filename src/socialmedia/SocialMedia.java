@@ -403,9 +403,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      */
     public static StringBuilder postHelper(ArrayList<Comment> comments, int indentationLevel,
                                            StringBuilder showPostChildren ) {
-        // TODO: Check if PostType.DELETED
-        // TODO: Make sure the string is formatted correctly
-
         for (Comment comment: comments){
             String commentString = "";
             if (indentationLevel >= 1) {
