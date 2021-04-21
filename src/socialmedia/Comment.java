@@ -30,13 +30,13 @@ public class Comment extends Post{
             throws InvalidPostException, HandleNotRecognisedException, NotActionablePostException {
         super(author, contents);
         isContentsValid(contents);
-        this.isOrphan = false;
-        this.type = PostType.COMMENT;
+        isOrphan = false;
+        type = PostType.COMMENT;
+        setPostType(PostType.COMMENT);
         this.parent = parent;
-        this.endorsements = new ArrayList<Endorsement>();
-        this.comments = new ArrayList<Comment>();
+        endorsements = new ArrayList<Endorsement>();
+        comments = new ArrayList<Comment>();
         parent.addComment(this);
-        // TODO: Add to parent's comment array
     }
 
     /**
