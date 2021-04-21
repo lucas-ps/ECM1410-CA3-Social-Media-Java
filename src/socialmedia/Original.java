@@ -28,7 +28,7 @@ public class Original extends Post implements Serializable {
         isContentsValid(contents);
         this.endorsements = new ArrayList<Endorsement>();
         this.comments = new ArrayList<Comment>();
-        this.type = PostType.ORIGINAL;
+        setPostType(PostType.ORIGINAL);
     }
 
     /**
