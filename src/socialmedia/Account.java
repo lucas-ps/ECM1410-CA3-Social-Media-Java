@@ -156,6 +156,6 @@ public class Account implements Serializable {
     @Override
     public String toString() {
        return "\nID: " + id + "\nHandle: " + handle + "\nDescription: " + description +
-               "Post count" + userPosts.size() + "\n Endorse count:" + endorsementCount + "\n";
+               "\nPost count: " + userPosts.size() + "\nEndorse count: " + endorsementCount + "\n";
     }
 }

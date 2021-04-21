@@ -90,6 +90,6 @@ public class Original extends Post implements Serializable {
     @Override
     public String toString() {
         return "\nId: " + postId + "\nAccount: " + author.getHandle() + "\nNo. endorsements: " +
-                endorsements.size() + " | No. comments: " + comments.size() + "\n" + contents + "\n";
+                getEndorsementCount() + " | No. comments: " + comments.size() + "\n" + contents + "\n";
     }
 }
