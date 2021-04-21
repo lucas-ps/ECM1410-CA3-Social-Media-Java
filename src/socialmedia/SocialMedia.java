@@ -10,8 +10,9 @@ import java.lang.*;
  * @author 700037512, 700074221
  */
 public class SocialMedia implements SocialMediaPlatform, Serializable  {
-    private HashMap<String, Account> accounts;
-    private HashMap<Integer, Post> posts;
+    public HashMap<String, Account> accounts;
+    public HashMap<Integer, Post> posts;
+    // TODO: Change back to private once tested
 
     /**
      * Constructor method for the social media platform to implement the interfaces.
@@ -55,8 +56,8 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      * Finds an account object from accounts hashmap using the account's handle.
      * @param  handle the string handle of the account being searched for.
      * @return the matching account object found if one is found.
-     * @throws AccountIDNotRecognisedException if the ID does not match to any
-     *                                         account in the system.
+     * @throws HandleNotRecognisedException if the handle does not match to any
+     *                                       account in the system.
      */
     public Account getAccount(String handle) throws HandleNotRecognisedException {
         if (accounts.containsKey(handle)){

@@ -32,6 +32,10 @@ public class SocialMediaPlatformTestApp {
 		assert (platform.getTotalEndorsmentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
 
 		Integer id;
+
+		/**
+		 * Tests for account methods
+		 */
 		try {
 			id = platform.createAccount("my_handle");
 			assert (platform.getNumberOfAccounts() == 1) : "number of accounts registered in the system does not match";
