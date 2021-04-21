@@ -404,6 +404,9 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public static StringBuilder postHelper(ArrayList<Comment> comments, int indentationLevel,
                                            StringBuilder showPostChildren ) {
         for (Comment comment: comments){
+            if (comment.getPostType().equals(PostType.DELETED)){
+                continue;
+            }
             String commentString = "";
             if (indentationLevel >= 1) {
                 commentString += "| \n" +
