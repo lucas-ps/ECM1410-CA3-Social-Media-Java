@@ -33,7 +33,7 @@ public class Endorsement extends Post implements Serializable {
         this.contents = parent.contents;
         this.parent = parent;
         parent.author.addEndorsement(); //see if it works
-        this.type = PostType.ENDORSEMENT;
+        setPostType(PostType.ENDORSEMENT);
         author.addEndorsement();
         parent.addEndorsement();
     }
