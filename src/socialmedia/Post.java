@@ -30,7 +30,7 @@ public class Post implements Serializable {
         this.author = author;
         this.contents = contents;
         this.endorsementCount = 0;
-        this.postType = null;
+        postType = null;
     }
 
     /**
@@ -74,8 +74,8 @@ public class Post implements Serializable {
      *                                      B, and an account wants to endorse B, in
      *                                      fact, the endorsement must refers to A.
      */
-    public void addEndorsement() throws NotActionablePostException {
-        isPostEndorsable(this.getPostType());
+    public void addEndorsement() throws NotActionablePostException{
+       isPostEndorsable(postType);
         this.endorsementCount++;
     }
 
@@ -93,7 +93,7 @@ public class Post implements Serializable {
     }
 
     /**
-     *Used in addEndorsement method.
+     * Returns the type of post.
      * @return The type of post.
      */
     public PostType getPostType(){
@@ -111,9 +111,11 @@ public class Post implements Serializable {
      *                                     fact, the endorsement must refers to A.
      */
     public static void isPostEndorsable(PostType postType) throws NotActionablePostException {
-        if((postType.equals(PostType.ORIGINAL)) || (postType.equals(PostType.COMMENT))){
+        if (postType.equals(PostType.ORIGINAL)){
             return;
-        } else{
+        } else if  (postType.equals(PostType.COMMENT)){
+            return;
+        }else {
             throw new NotActionablePostException("Attempted to act upon an not-actionable post.");
         }
     }
@@ -152,11 +154,19 @@ public class Post implements Serializable {
     }
 
     /**
-     * Getter method for the Contents of the post
+     * Getter method for the Contents of the post.
      * @return Contents of the message.
      */
     public String getContents() {
         return contents;
+    }
+
+    /**
+     * Set the post type for a post.
+     * @param postType the postType to be set.
+     */
+    public void setPostType(PostType postType){
+        this.postType = postType;
     }
 
 }
