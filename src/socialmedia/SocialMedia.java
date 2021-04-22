@@ -375,17 +375,13 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException,
             NotActionablePostException {
         StringBuilder showPostChildren = new StringBuilder();
-        int indentationLevel = 0;
-        for (int i = 0; i < posts.size(); i++){
-            if (posts.get(i).getId() ==id){
-                showPostChildren.append(posts.get(i).toString());
-                Post post = posts.get(i);
-                if (post.getPostType().equals(PostType.COMMENT)) {
-                    postHelper(((Comment)post).getComments(), indentationLevel, showPostChildren);
-                } else {
-                    postHelper(((Original)post).getComments(), indentationLevel, showPostChildren);
-                }
-            }
+        int indentationLevel = 1;
+        Post post = getPost(id);
+        showPostChildren.append(post.toString());
+        if (post.getPostType().equals(PostType.COMMENT)) {
+            postHelper(((Comment)post).getComments(), indentationLevel, showPostChildren);
+        } else {
+            postHelper(((Original)post).getComments(), indentationLevel, showPostChildren);
         }
         return showPostChildren;
     }
@@ -408,12 +404,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
                 continue;
             }
             String commentString = "";
-            if (indentationLevel >= 1) {
-                commentString += "| \n" +
-                                 "| > ";
-            }
-            commentString += comment.toString();
-            commentString.indent(indentationLevel);
+            commentString += comment.toString(indentationLevel);
             showPostChildren.append(commentString);
             if(!(comment.getComments().isEmpty())){
                 postHelper(comment.getComments(),indentationLevel+1, showPostChildren);

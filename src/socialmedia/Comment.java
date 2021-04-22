@@ -112,4 +112,37 @@ public class Comment extends Post{
         return "\nId: " + postId + "\nAccount: " + author.getHandle() + "\nNo. endorsements: " +
                getEndorsementCount() + " | No. comments: " + comments.size() + "\n" + contents + "\n";
     }
+
+    /**
+     * toString which takes into account indentation
+     * The method generates a formatted string containing the details of a single
+     * post. The format is as follows:
+     *  ID: [post ID]
+     *  Account: [account handle]
+     *  No. endorsements: [number of endorsements received by the post] | No. comments: [number of comments received by the post]
+     *  [post message]
+     */
+    @Override
+    public String toString(int indentationLevel){
+        // Indent for all other lines
+        String indent = "";
+        for (int i = 0; i < indentationLevel; i++) {
+            indent += "    ";
+        }
+
+        // Indent for first line
+        String babyIndent = "";
+        for (int i = 0; i < indentationLevel-1 ; i++) {
+            babyIndent += "    ";
+        }
+
+        // Building the string
+        String toString = babyIndent +"|\n" +
+                babyIndent + "| > "+ "Id: " + postId + "\n" +
+                indent +"Account: " + author.getHandle() + "\n" +
+                indent + "No. endorsements: " + getEndorsementCount() + " | No. comments: " + comments.size() + "\n" +
+                indent + contents + "\n";
+
+        return toString;
+    }
 }

@@ -138,6 +138,14 @@ public class Post implements Serializable {
     }
 
     /**
+     *ToString method to show the details of the post.
+     * @return Blank string
+     */
+    public String toString(int indenTationLevel) {
+        return "";
+    }
+
+    /**
      * Returns the post's author.
      * @return The Account object corresponding to the post's author
      */
