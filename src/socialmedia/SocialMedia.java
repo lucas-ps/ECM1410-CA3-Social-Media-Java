@@ -417,7 +417,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public int getMostEndorsedPost() {
         Post mostPopularPost = null;
         for(Post post : posts.values()){
-            int popularity = 0;
+            int popularity = -1;
             if (post.getEndorsementCount() > popularity) {
                 popularity = post.getEndorsementCount();
                 mostPopularPost = post;
@@ -430,7 +430,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public int getMostEndorsedAccount() {
         Account mostPopularAccount = null;
         for (Account account : accounts.values()) {
-            int popularity = 0;
+            int popularity = -1;
             if (account.getEndorsementCount() > popularity) {
                 popularity = account.getEndorsementCount();
                 mostPopularAccount = account;
