@@ -142,19 +142,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
 
     // Main methods
 
-    /**
-     * The method creates an account in the platform with the given handle.
-     * <p>
-     * The state of this SocialMediaPlatform must be be unchanged if any exceptions
-     * are thrown.
-     *
-     * @param handle account's handle.
-     * @throws IllegalHandleException if the handle already exists in the platform.
-     * @throws InvalidHandleException if the new handle is empty, has more than 30
-     *                                characters, or has white spaces.
-     * @return the ID of the created account.
-     *
-     */
     @Override
     public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
         if (accounts.containsKey(handle)){
@@ -269,6 +256,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         Post post = posts.get(id);
         Account postAuthorAccount = post.getAuthor();
         Endorsement newEndorsement = new Endorsement(endorsingAccount, post.getContents(), post);
+        post.addEndorsementList(newEndorsement, post);
         posts.put(newEndorsement.getId(), newEndorsement);
         return newEndorsement.getId();
     }
