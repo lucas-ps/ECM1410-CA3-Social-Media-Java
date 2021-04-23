@@ -50,6 +50,14 @@ public class Original extends Post implements Serializable {
      * Adds an endorsement to the current post's comment ArrayList.
      * @param endorsement the endorsement object to be added to the comment.
      */
+    public void addEndorsementArrayList(Endorsement endorsement){
+       endorsements.add(endorsement);
+    }
+
+    /**
+     * Returns the ArrayList of Endorsement objects corresponding to the post.
+     * @return all endorsements for the current post
+     */
     public ArrayList<Endorsement> getEndorsements() {
         return endorsements;
     }
@@ -69,15 +77,6 @@ public class Original extends Post implements Serializable {
     public void addComment(Comment comment){
         this.comments.add(comment);
     }
-
-    /**
-     * Adds an endorsement to the current post's comment ArrayList.
-     * @param endorsement the endorsement object to be added to the comment.
-     */
-    public void addEndorsement(Endorsement endorsement){
-        this.endorsements.add(endorsement);
-    }
-
 
    /**
     * The method generates a formatted string containing the details of a single
