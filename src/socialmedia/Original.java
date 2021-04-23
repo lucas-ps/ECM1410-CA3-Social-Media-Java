@@ -47,8 +47,8 @@ public class Original extends Post implements Serializable {
     }
 
     /**
-     * Returns the ArrayList of Endorsement objects corresponding to the post.
-     * @return all endorsements for the current post
+     * Adds an endorsement to the current post's comment ArrayList.
+     * @param endorsement the endorsement object to be added to the comment.
      */
     public ArrayList<Endorsement> getEndorsements() {
         return endorsements;

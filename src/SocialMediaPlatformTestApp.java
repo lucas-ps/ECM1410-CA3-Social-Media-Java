@@ -11,8 +11,8 @@ import java.util.HashMap;
  * BadSocialMedia class).
  *
  * 
- * @author Diogo Pacheco
- * @version 1.0
+ * @author  700037512, 700074221
+ * @version 3.0
  */
 public class SocialMediaPlatformTestApp {
 
