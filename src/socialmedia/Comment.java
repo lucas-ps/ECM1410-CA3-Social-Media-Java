@@ -10,8 +10,6 @@ import java.util.ArrayList;
 public class Comment extends Post{
     private boolean isOrphan;
     private Post parent;
-    private Original originalPost;
-    private PostType type;
     private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
 
@@ -31,7 +29,6 @@ public class Comment extends Post{
         super(author, contents);
         isContentsValid(contents);
         isOrphan = false;
-        type = PostType.COMMENT;
         setPostType(PostType.COMMENT);
         this.parent = parent;
         endorsements = new ArrayList<Endorsement>();
@@ -45,11 +42,6 @@ public class Comment extends Post{
      */
     public void addComment(Comment comment){
         this.comments.add(comment);
-    }
-
-    //TODO: docmuentation
-    public Original getOriginalPost() {
-        return originalPost;
     }
 
     /**
@@ -68,6 +60,21 @@ public class Comment extends Post{
     }
 
     /**
+     * Makes a comment an orphan when the post it refers to is deleted.
+     */
+    public void makeOrphan(){
+       this.isOrphan = true;
+    }
+
+    /**
+     * Adds an endorsement to the current post's comment ArrayList.
+     * @param endorsement the endorsement object to be added to the comment.
+     */
+    public void addEndorsementArrayList(Endorsement endorsement){
+        endorsements.add(endorsement);
+    }
+
+    /**
      * Returns the ArrayList of Endorsement objects corresponding to the post.
      * @return all endorsements for the current post
      */
@@ -75,13 +82,6 @@ public class Comment extends Post{
         return endorsements;
     }
 
-
-    /**
-     * Makes a comment an orphan when the post it refers to is deleted.
-     */
-    public void makeOrphan(){
-        this.isOrphan = true;
-    }
 
     /**
      * Getter method for Comments.
