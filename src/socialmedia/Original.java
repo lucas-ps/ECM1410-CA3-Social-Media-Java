@@ -9,10 +9,8 @@ import java.util.ArrayList;
  * @author 700037512, 700074221
  */
 public class Original extends Post implements Serializable {
-    //why do we need an array list of comments again
-    private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
-    private PostType type;
+    private ArrayList<Endorsement> endorsements;
 
     /**
      * Constructor for Original post objects.
@@ -26,8 +24,8 @@ public class Original extends Post implements Serializable {
     public Original(Account author, String contents) throws InvalidPostException, HandleNotRecognisedException {
         super(author, contents);
         isContentsValid(contents);
-        this.endorsements = new ArrayList<Endorsement>();
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<>();
+        this.endorsements = new ArrayList<>();
         setPostType(PostType.ORIGINAL);
     }
 
