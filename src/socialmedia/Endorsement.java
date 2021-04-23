@@ -9,8 +9,6 @@ import java.io.Serializable;
  */
 public class Endorsement extends Post implements Serializable {
     private Post parent;
-    private PostType type;
-
     /**
      * Constructor for endorsement objects, adds an endorsement to the parent's endorsement counter.
      * @param author The author object corresponding to who is creating the comment.
@@ -48,11 +46,12 @@ public class Endorsement extends Post implements Serializable {
         this.getParent().removeEndorsement();
     }
 
-    @Override
+
     /**
      * Returns a string for the endorsement in the form "EP@" + [endorsed account handle] + ": " + [endorsed message]
      * @return The endorsement as a string
      */
+    @Override
     public String toString(){
         String outputStr = "EP@" + this.author.getHandle() + ": " + this.contents;
         return outputStr;
