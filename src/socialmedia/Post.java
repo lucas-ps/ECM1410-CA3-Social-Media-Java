@@ -76,7 +76,19 @@ public class Post implements Serializable {
      */
     public void addEndorsement() throws NotActionablePostException{
        isPostEndorsable(postType);
-        this.endorsementCount++;
+       this.endorsementCount++;
+    }
+
+    /**
+     * Adds an endorsement to the current post's comment ArrayList.
+     * @param endorsement the endorsement object to be added to the comment.
+     */
+    public void addEndorsementList(Endorsement endorsement, Post post) {
+        if (postType == postType.ORIGINAL) {
+            ((Original) post).addEndorsementArrayList(endorsement);
+        }else if (postType == postType.COMMENT){
+            ((Comment) post).addEndorsementArrayList(endorsement);
+        }
     }
 
     // TODO: documentation
