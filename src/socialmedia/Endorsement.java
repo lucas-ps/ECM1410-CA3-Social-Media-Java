@@ -16,8 +16,6 @@ public class Endorsement extends Post implements Serializable {
      * @param author The author object corresponding to who is creating the comment.
      * @param contents The contents string of the comment.
      * @param parent The parent (Original/Comment) object that the comment is commenting on.
-     * @throws InvalidPostException  if the message is empty or has more than
-     * 	                             100 characters.
      * @throws HandleNotRecognisedException if the handle does not match to any
      * 	                                    account in the system.
      * @throws NotActionablePostException if the ID refers to a endorsement post.
