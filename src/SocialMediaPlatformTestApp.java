@@ -151,11 +151,11 @@ public class SocialMediaPlatformTestApp {
 			/**
 			 * removeAccount
 			 * - Account ID must exist on the system (AccountIDNotRecognisedException)
-			 * - Using getNumberOfAccounts after removing an account should return int 2 as one of the 3 accounts has been
+			 * - Using getNumberOfAccounts after removing an account should return int 1 as one of the 2 accounts has been
 			 * removed
 			 */
 			platform.removeAccount(0);
-			assert (platform.getNumberOfAccounts() == 2) : "number of accounts registered in the system does not match";
+			assert (platform.getNumberOfAccounts() == 1) : "number of accounts registered in the system does not match";
 			platform.createAccount("test_2");
 
 		} catch (IllegalHandleException e) {
