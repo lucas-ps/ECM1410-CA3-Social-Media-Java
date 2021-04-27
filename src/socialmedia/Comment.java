@@ -105,6 +105,15 @@ public class Comment extends Post{
     }
 
     /**
+     * Removes comment from an arraylist when a comment is deleted.
+     * @param comment Comment to be removed.
+     */
+    @Override
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
+    }
+
+    /**
      * Returns the ArrayList of Endorsement objects corresponding to the post.
      * @return all endorsements for the current post
      */
@@ -119,6 +128,14 @@ public class Comment extends Post{
      */
     public ArrayList<Comment> getComments() {
         return comments;
+    }
+
+    /**
+     * Getter method for the parent of the post.
+     * @return The parent of the comment.
+     */
+    public Post getParent() {
+        return parent;
     }
 
     /**
