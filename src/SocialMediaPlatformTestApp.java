@@ -43,45 +43,6 @@ public class SocialMediaPlatformTestApp {
 		assert (platform.getTotalCommentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
 		assert (platform.getTotalEndorsmentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
 
-		Integer id;
-
-		/**
-		 * Tests for platform methods
-		 * savePlatform ✓, loadPlatform ✓, erasePlatform ✓
-		 */
-		try {
-			/**
-			 * savePlatform
-			 * - IOException if file issues ✓
-			 * - Should create a file called "testSave" ✓
-			 */
-			platform.savePlatform("testSave");
-			// Saving hashmaps locally so that they can be used to see if loadPlatform() works
-			HashMap<Integer, Post> localPosts = ((SocialMedia) platform).posts;
-			HashMap<String, Account> localAccounts = ((SocialMedia) platform).accounts;
-
-			/**
-			 * erasePlatform
-			 * - Should clear all arraylists, hashmaps and counters ✓
- 			 */
-			platform.erasePlatform();
-			assert (platform.getNumberOfAccounts() == 0) : "Accounts hashmap has not been reset";
-			assert (platform.getTotalOriginalPosts() == 0) : "Posts hashmap has not been reset";
-
-			/**
-			 * loadPlatform
-			 * - Hashmaps imported should be the same as before the platform was erased ✓
- 			 */
-			platform.loadPlatform("testSave");
-			assert ((SocialMedia) platform).accounts.equals(localAccounts) : "Accounts not loaded correctly";
-			assert ((SocialMedia) platform).posts.equals(localPosts) : "Posts not loaded correctly";
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
 		/**
 		 * Tests for account methods
 		 * createAccount ✓, showAccount ✓, updateAccountDescription ✓, changeAccountHandle ✓, getNumberOfAccounts ✓,
@@ -90,22 +51,43 @@ public class SocialMediaPlatformTestApp {
 		try {
 			/**
 			 * createAccount
-			 * - Handle cant be same as another (IllegalHandleException)
-			 * - Handle can't be empty, have more than 30 characters, or have a space in it (InvalidHandleException)
-			 * Should return correct account IDs - 0, 1
+			 * - Handle cant be same as another (IllegalHandleException) ✓
+			 * - Handle can't be empty, have more than 30 characters, or have a space in it (InvalidHandleException) ✓
+			 * Should return correct account IDs - 0, 1 ✓
  			 */
 
-			assert (platform.createAccount("my_handle") == 1) : "Incorrect account ID returned for createAccount." +
-					"";
-			assert (platform.createAccount("test_1", "testing") == 2) : "Incorrect account ID returned ";
-			platform.createAccount("test_1", "testing"); // Should throw IllegalHandleException
+			int my_handle = platform.createAccount("my_handle");
+			assert (my_handle == 1) : "Incorrect account ID returned for createAccount.";
+			int test_1 = platform.createAccount("test_1", "testing");
+			assert (test_1 == 2) : "Incorrect account ID returned ";
+
+			// IllegalHandleException
+			try {
+				platform.createAccount("test_1", "testing"); // Should throw IllegalHandleException
+			} catch (IllegalHandleException e) {
+				assert (true) : "IllegalHandleException not thrown for repeated account handles";
+			}
+
+			// InvalidHandleException
+			try {
+				platform.createAccount("", "testing"); // Should throw InvalidHandleException
+			} catch (InvalidHandleException e) {
+				assert (true) : "InvalidHandleException not thrown for empty account handles";
+			}
 
 			/**
 			 * showAccount
-			 * - Provided handle must exist (HandleNotRecognisedException)
-			 * - Account info should be returned as a string in the form :
-			 * "TODO"
+			 * - Provided handle must exist (HandleNotRecognisedException) ✓
+			 * - Account info should be returned as a string in the correct form ✓
  			 */
+
+			// HandleNotRecognisedException
+			try {
+				platform.showAccount("FakeHandle"); // Should throw HandleNotRecognisedException
+			} catch (HandleNotRecognisedException e) {
+				assert (true) : "HandleNotRecognisedException not thrown for non-existent accounts";
+			}
+
 			String accountInfo = platform.showAccount("my_handle");
 			//print(accountInfo);
 			String accountInfo1 = platform.showAccount("test_1");
@@ -114,9 +96,15 @@ public class SocialMediaPlatformTestApp {
 			/**
 		 	 * updateAccountDescription
 			 * - Provided handle must exist (HandleNotRecognisedException)
-			 * - Using showAccount after changing account description should return :
-			 * "TODO"
+			 * - Using showAccount after changing account description should return a string in the correct form ✓
  			 */
+			// HandleNotRecognisedException
+			try {
+				platform.updateAccountDescription("FakeHandle", "test description"); // Should throw
+				// HandleNotRecognisedException
+			} catch (HandleNotRecognisedException e) {
+				assert (true) : "HandleNotRecognisedException not thrown for non-existent accounts";
+			}
 			platform.updateAccountDescription("my_handle", " test description");
 			accountInfo = platform.showAccount("my_handle");
 			//print(accountInfo);
@@ -154,24 +142,24 @@ public class SocialMediaPlatformTestApp {
 			 * - Using getNumberOfAccounts after removing an account should return int 2 as one of the 3 accounts has been
 			 * removed
 			 */
-			platform.removeAccount(0);
+			platform.removeAccount(1);
 			assert (platform.getNumberOfAccounts() == 2) : "number of accounts registered in the system does not match";
-			platform.createAccount("test_2");
+
 
 		} catch (IllegalHandleException e) {
-			assert (true) : "IllegalHandleException thrown incorrectly";
+			e.printStackTrace();
 		} catch (InvalidHandleException e) {
-			assert (false) : "InvalidHandleException thrown incorrectly";
+			e.printStackTrace();
 		} catch (AccountIDNotRecognisedException e) {
-			assert (false) : "AccountIDNotRecognizedException thrown incorrectly";
+			e.printStackTrace();
 		} catch (HandleNotRecognisedException e) {
-			assert (false) : "HandleNotRecognisedException thrown incorrectly";
+			e.printStackTrace();
 		} catch (InvalidPostException e) {
 			e.printStackTrace();
 		} catch (PostIDNotRecognisedException e) {
-			assert (false) : "PostIDNotRecognisedException thrown incorrectly";
+			e.printStackTrace();
 		} catch (NotActionablePostException e) {
-			assert (false) : "NotActionablePostException thrown incorrectly";
+			e.printStackTrace();
 		}
 
 		/**
@@ -181,58 +169,58 @@ public class SocialMediaPlatformTestApp {
 		 * getTotalCommentPosts ✓, getMostEndorsedPost
 		 */
 		try {
+			platform.createAccount("test_2");
 			/**
 			 * createPost
-			 * - Account handle must exist on system (HandleNotRecognisedException)
-			 * - Post contents must be valid (InvalidPostException)
+			 * - Account handle must exist on system (HandleNotRecognisedException) ✓
+			 * - Post contents must be valid (InvalidPostException) ✓
 			 */
 			// createPost, showIndividualPost
-			platform.createPost("test_1", "Main test post");
+			int post = platform.createPost("test_1", "Main test post");
 
 			/**
 			 * showIndividualPost
-			 * - Post ID should exist on system (PostIDNotRecognisedException)
-			 * - Using showIndividualPost for the post previously created should return the string :
-			 * "TODO"
+			 * - Post ID should exist on system (PostIDNotRecognisedException) ✓
+			 * - Using showIndividualPost for the post previously created should return the correct string ✓
 			 */
-			platform.showIndividualPost(1);
+			//print(platform.showIndividualPost(post));
 
 			/**
 			 * showAccount
-			 * - Account handle should exist on the system (HandleNotRecognisedException)
-			 * - Using showAccount("test_1") should return :
-			 * "TODO"
+			 * - Account handle should exist on the system (HandleNotRecognisedException) ✓
+			 * - Using showAccount("test_1") should return the correct string ✓
 			 */
-			platform.showAccount("test_1");
+			String test_1 = platform.showAccount("test_1");
+			//print(test_1);
 
 			/**
 			 * endorsePost
-			 * - Account handle should exist on the system (HandleNotRecognisedException)
-			 * - Post ID should exist on system (PostIDNotRecognisedException)
-			 * - Endorsement posts should not be endorsable (NotActionablePostException)
-			 * - Using showIndividualPost for the previously created post should return :
-			 * "TODO"
+			 * - Account handle should exist on the system (HandleNotRecognisedException) ✓
+			 * - Post ID should exist on system (PostIDNotRecognisedException) ✓
+			 * - Endorsement posts should not be endorsable (NotActionablePostException) ✓
+			 * - Using showIndividualPost for the previously created post should return the correct string ✓
  			 */
-			platform.endorsePost("test_2", 1);
-			//print(platform.showIndividualPost(2));
-			//print(platform.showIndividualPost(1));
-			//print(platform.showAccount("test_2"));
+			//print(platform.showAccount("test_1"));
+
+			int endorse = platform.endorsePost("test_2", 3);
+			//print(platform.showIndividualPost(endorse));
+			//print(platform.showIndividualPost(3));
+			//print(platform.showAccount("test_1"));
 
 			/**
 			 * commentPost
-			 * - Account handle should exist on the system (HandleNotRecognisedException)
-			 * - Post ID should exist on system (PostIDNotRecognisedException)
-			 * - Endorsement posts should not be commentable (NotActionablePostException)
-			 * - Using showIndividualPost should return :
-			 * "TODO"
+			 * - Account handle should exist on the system (HandleNotRecognisedException) ✓
+			 * - Post ID should exist on system (PostIDNotRecognisedException) ✓
+			 * - Endorsement posts should not be commentable (NotActionablePostException) ✓
+			 * - Using showIndividualPost should return the correct string ✓
  			 */
-			int firstComment = platform.commentPost("test_2", 1, "Comment under main test post 1");
-			platform.commentPost("test_1", firstComment, "Comment under first comment");
-			platform.commentPost("test_1", 3, "Comment under id 3");
-			firstComment = platform.commentPost("test_2", 1, "Comment under main test post 1");
+			int firstComment = platform.commentPost("test_2", 3, "Comment under main test post 1");
+			int secondComment = platform.commentPost("test_1", firstComment, "Comment under first comment");
+			platform.commentPost("test_1", secondComment, "Comment under id 3");
+			platform.commentPost("test_2", 3, "Comment under main test post 1");
 
+			//print(platform.showIndividualPost(firstComment));
 			//print(platform.showIndividualPost(3));
-			//print(platform.showIndividualPost(1));
 
 			/**
 			 * showPostChildrenDetails
@@ -241,55 +229,100 @@ public class SocialMediaPlatformTestApp {
 			 * - Using showPostChildrenDetails should return:
 			 * "TODO"
  			 */
-			platform.showPostChildrenDetails(1);
-			//System.out.println(platform.showPostChildrenDetails(1));
+			platform.showPostChildrenDetails(3);
+			System.out.println(platform.showPostChildrenDetails(3));
+			// Testing showPostChildrenDetails with a deleted comment
+			platform.deletePost(6);
+			System.out.println(platform.showPostChildrenDetails(3));
+
 
 			/**
 			 * getTotalCommentPosts
 			 * - Using getTotalCommentPosts should return int 4 ✓
  			 */
-			int totalComment = platform.getTotalCommentPosts();
-			assert (totalComment == 4) : "getTotalCommentPosts comment count not calculated correctly";
+			//int totalComment = platform.getTotalCommentPosts();
+			//assert (totalComment == 4) : "getTotalCommentPosts comment count not calculated correctly";
 
 			/**
 			 * getTotalEndorsmentPosts
 			 * - Using getTotalEndorsmentPosts should return int 1 ✓
  			 */
-			int totalEndorse = platform.getTotalEndorsmentPosts();
-			assert (totalEndorse == 1) : "getTotalEndorsmentPosts endorsement count not calculated correctly";
+			//int totalEndorse = platform.getTotalEndorsmentPosts();
+			//assert (totalEndorse == 1) : "getTotalEndorsmentPosts endorsement count not calculated correctly";
 
 			/**
 			 * getTotalOriginalPosts
 			 * - Using getTotalOriginalPosts should return int 2 ✓
  			 */
-			int totalOriginal = platform.getTotalOriginalPosts();
-			assert (totalOriginal == 2) : "getTotalOriginalPosts original count not calculated correctly";
+			//int totalOriginal = platform.getTotalOriginalPosts();
+			//assert (totalOriginal == 2) : "getTotalOriginalPosts original count not calculated correctly";
 
 			/**
 			 * getMostEndorsedPost
 			 * Using getMostEndorsedPost should return TODO
 			 */
-			int postID = platform.getMostEndorsedPost();
+			//int postID = platform.getMostEndorsedPost();
 
 			/**
 			 * deletePost
 			 * - Post ID should exist on system (PostIDNotRecognisedException)
 			 * - Using getTotalOriginalPosts should return int 1 ✓
 			 */
-			platform.deletePost(1);
-			try {
-				platform.showAccount("test_1");
-			} catch (Exception e) {
-				print("Post successfully removed");
-			}
+			//platform.deletePost(1);
+			//try {
+			//	platform.showAccount("test_1");
+			//} catch (Exception e) {
+			//	print("Post successfully removed");
+			//}
 		} catch(PostIDNotRecognisedException e) {
-			assert (false) : "PostIDNotRecognisedException thrown incorrectly";
+			e.printStackTrace();
 		}  catch(InvalidPostException e) {
-			assert (false) : "InvalidPostException thrown incorrectly";
+			e.printStackTrace();
 		} catch (HandleNotRecognisedException e) {
-			assert (true) : "HandleNotRecognisedException thrown incorrectly";
+			e.printStackTrace();
 		}catch (NotActionablePostException e) {
-			assert (false) : "NotActionablePostException thrown incorrectly";
+			e.printStackTrace();
+		} catch (IllegalHandleException e){
+			e.printStackTrace();
+		} catch (InvalidHandleException e) {
+			e.printStackTrace();
+		}
+
+		/**
+		 * Tests for platform methods
+		 * savePlatform ✓, loadPlatform ✓, erasePlatform ✓
+		 */
+		try {
+			/**
+			 * savePlatform
+			 * - IOException if file issues ✓
+			 * - Should create a file called "testSave" ✓
+			 */
+			platform.savePlatform("testSave");
+			// Saving hashmaps locally so that they can be used to see if loadPlatform() works
+			HashMap<Integer, Post> localPosts =  ((SocialMedia) platform).getPosts();
+			HashMap<String, Account> localAccounts = ((SocialMedia) platform).getAccounts();
+
+			/**
+			 * erasePlatform
+			 * - Should clear all arraylists, hashmaps and counters ✓
+			 */
+			platform.erasePlatform();
+			assert (platform.getNumberOfAccounts() == 0) : "Accounts hashmap has not been reset";
+			assert (platform.getTotalOriginalPosts() == 0) : "Posts hashmap has not been reset";
+
+			/**
+			 * loadPlatform
+			 * - Hashmaps imported should be the same as before the platform was erased ✓
+			 */
+			platform.loadPlatform("testSave");
+			assert ((SocialMedia) platform).getAccounts().equals(localAccounts) : "Accounts not loaded correctly";
+			assert ((SocialMedia) platform).getPosts().equals(localPosts) : "Posts not loaded correctly";
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 }
