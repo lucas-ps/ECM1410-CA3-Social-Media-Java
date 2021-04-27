@@ -33,6 +33,13 @@ public class Post implements Serializable {
         postType = null;
     }
 
+    public Post() {
+    }
+
+    //TODO documentation
+    public void removeComment(Comment comment) {
+    }
+
     /**
      * Constructor for the SocialMediaPlatform dummy post for deleted posts.
      * @param id ID assigned to a deleted post.
@@ -41,10 +48,15 @@ public class Post implements Serializable {
         this.postId = id;
         this.author = null;
         this.contents = "The original content was removed from the system and is no longer available.";
-        this.postType = PostType.DELETED;
+        setPostType(PostType.DELETED);
     }
 
-    // TODO: Documentation
+    /**
+     * Method to add Comments to the parent post arraylist so they can be orphaned when the post is deleted.
+     * @param comment The comment to be added to the arraylist.
+     * @throws NotActionablePostException if the handle does not match to any
+     *                                     account in the system.
+     */
     public void addComment(Comment comment) throws NotActionablePostException {
         if (this.postType.equals(PostType.COMMENT) || this.postType.equals((PostType.ORIGINAL))){
             ((Comment) this).addComment(comment);
@@ -91,7 +103,9 @@ public class Post implements Serializable {
         }
     }
 
-    // TODO: documentation
+    /**
+     * Method to remove an endorsement from the endorsement count when the endorsement is deleted.
+     */
     public void removeEndorsement() {
         this.endorsementCount--;
     }
@@ -153,7 +167,7 @@ public class Post implements Serializable {
      *ToString method to show the details of the post.
      * @return Blank string
      */
-    public String toString(int indenTationLevel) {
+    public String toString(int indentationLevel) {
         return "";
     }
 
