@@ -26,6 +26,7 @@ public class Original extends Post implements Serializable {
         isContentsValid(contents);
         this.comments = new ArrayList<>();
         this.endorsements = new ArrayList<>();
+        this.deletedComments = new ArrayList<>();
         setPostType(PostType.ORIGINAL);
     }
 
@@ -42,6 +43,16 @@ public class Original extends Post implements Serializable {
         if (contents.length() > 100) {
             throw new InvalidPostException("Contents is over 100 characters. It is too long.");
         }
+    }
+
+    //TODO documentation
+    @Override
+    public void addDeletedComment(Comment comment){
+        this.deletedComments.add(comment);
+    }
+
+    public ArrayList<Comment> getDeletedComments(){
+        return deletedComments;
     }
 
     /**

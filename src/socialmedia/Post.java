@@ -203,4 +203,6 @@ public class Post implements Serializable {
         this.postType = postType;
     }
 
+    public void addDeletedComment(Comment comment){
+    }
 }
