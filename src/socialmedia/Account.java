@@ -14,7 +14,6 @@ public class Account implements Serializable {
     private static int newId = 0;
     private int id;
     private String handle;
-    private ArrayList<Post> userPosts;
     private int endorsementCount;
     private ArrayList<Post> userPosts;
 
@@ -32,8 +31,8 @@ public class Account implements Serializable {
         this.handle = handle;
         this.description = description;
         id = ++Account.newId;
-        userPosts = new ArrayList<>();
         endorsementCount = 0;
+        this.userPosts = new ArrayList<>();
     }
 
     /**

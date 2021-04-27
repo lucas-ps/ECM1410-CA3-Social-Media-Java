@@ -46,12 +46,19 @@ public class Original extends Post implements Serializable {
         }
     }
 
-    //TODO documentation
+    /**
+     * Adds comments to an arraylist of deleted posts.
+     * @param comment the comment to be deleted.
+     */
     @Override
     public void addDeletedComment(Comment comment){
         this.deletedComments.add(comment);
     }
 
+    /**
+     * Getter method for deleted comments.
+     * @return An arraylist of deleted comments.
+     */
     public ArrayList<Comment> getDeletedComments(){
         return deletedComments;
     }
@@ -98,7 +105,7 @@ public class Original extends Post implements Serializable {
     */
     @Override
     public String toString() {
-        return "\nId: " + postId + "\nAccount: " + author.getHandle() + "\nNo. endorsements: " +
-                getEndorsementCount() + " | No. comments: " + comments.size() + "\n" + contents + "\n";
+        return "\nId: " + this.getId() + "\nAccount: " + this.getAuthor().getHandle() + "\nNo. endorsements: " +
+                this.getEndorsementCount() + " | No. comments: " + comments.size() + "\n" + this.getContents() + "\n";
     }
 }

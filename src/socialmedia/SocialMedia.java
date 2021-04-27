@@ -23,14 +23,16 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     // Account/Post getter methods
 
     /**
-     * @return the Posts hashmap
+     *Getter method returns a Hashmap of all the post with the Id as the key.
+     * @return the Posts hashmap.
      */
     public HashMap<Integer, Post> getPosts() {
         return posts;
     }
 
     /**
-     * @return the Accounts hashmap
+     * Getter method returns a Hashmap of all the Accounts with handles as the key.
+     * @return the Accounts hashmap.
      */
     public HashMap<String, Account> getAccounts() {
         return accounts;
@@ -218,6 +220,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         return commentPostCount;
     }
 
+    @Override
     public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
         if (accounts.containsKey(handle)){
             throw new IllegalHandleException("Handle '"+ handle +"' has already been claimed.");
@@ -273,6 +276,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         Account postAuthorAccount = post.getAuthor();
         Endorsement newEndorsement = new Endorsement(endorsingAccount, post.getContents(), post);
         post.addEndorsementList(newEndorsement, post);
+        endorsingAccount.addPost(newEndorsement);
         posts.put(newEndorsement.getId(), newEndorsement);
         return newEndorsement.getId();
     }
@@ -289,6 +293,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
             originalParent = ((Comment)post).getOriginalParent();
         }
         Comment newComment = new Comment(commentingAccount, message, getPost(id), originalParent);
+        commentingAccount.addPost(newComment);
         posts.put(newComment.getId(), newComment);
         return newComment.getId();
     }
@@ -340,25 +345,16 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public StringBuilder postHelper(ArrayList<Comment> comments, int indentationLevel, StringBuilder showPostChildren) {
         for (Comment comment: comments){
             if (comment.getPostType().equals(PostType.DELETED)){
-                //comment = new Comment(-1);
-                Post dummy = dummyPost();
-                String deleted = ((Comment) dummy).toString(indentationLevel);
-                showPostChildren.append(deleted);
+               continue;
             } else {
                 String commentString = "";
                 commentString += comment.toString(indentationLevel);
                 showPostChildren.append(commentString);
             }
             if(!(comment.getComments().isEmpty())){
-                postHelper(comment.getComments(), deletedComments, indentationLevel+1, showPostChildren);
+                postHelper(comment.getComments(), indentationLevel+1, showPostChildren);
             }
         }
-        //for (Comment comment: deletedComments){
-           // if(!(comment.getComments().isEmpty())) {
-             //   postHelper(comment.getComments(), deletedComments, indentationLevel + 1, showPostChildren);
-            //}
-        //}
-
         return showPostChildren;
     }
 

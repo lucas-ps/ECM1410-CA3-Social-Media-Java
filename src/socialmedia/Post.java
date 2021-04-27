@@ -9,11 +9,11 @@ import java.io.Serializable;
  */
 public class Post implements Serializable {
 
-    public int postId;
+    private int postId;
     private static int newPostId = 0;
-    public Account author;
-    public String contents;
-    public int endorsementCount;
+    private Account author;
+    private String contents;
+    private int endorsementCount;
     private PostType postType;
 
     /**
@@ -33,10 +33,21 @@ public class Post implements Serializable {
         postType = null;
     }
 
-    public Post() {
+    /**
+     * Post constructor that generates a dummy post, used so that it can be overridden in child objects.
+     * @param id the id of the post.
+     * @param contents the contents of the post.
+     */
+    public Post(int id, String contents) {
+        postId = id;
+        this.contents = contents;
+        author = null;
     }
 
-    //TODO documentation
+    /**
+     * Overridden in Comment.java to remove a comment from a comment's ArrayList
+     * @param comment the comment object to be removed
+     */
     public void removeComment(Comment comment) {
     }
 
@@ -102,6 +113,7 @@ public class Post implements Serializable {
     /**
      * Adds an endorsement to the current post's comment ArrayList.
      * @param endorsement the endorsement object to be added to the comment.
+     * @param post the post the endorsement needs to be added too.
      */
     public void addEndorsementList(Endorsement endorsement, Post post) {
         if (postType == postType.ORIGINAL) {
@@ -212,6 +224,10 @@ public class Post implements Serializable {
         this.postType = postType;
     }
 
+    /**
+     * Overridden in Original.java, adds comments to an arraylist of deleted posts.
+     * @param comment the comment to be deleted.
+     */
     public void addDeletedComment(Comment comment){
     }
 }

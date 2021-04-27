@@ -305,8 +305,11 @@ public class SocialMediaPlatformTestApp {
 			 * - Hashmaps imported should be the same as before the platform was erased ✓
 			 */
 			platform.loadPlatform("testSave");
-			assert ((SocialMedia) platform).getAccounts().equals(localAccounts) : "Accounts not loaded correctly";
-			assert ((SocialMedia) platform).getPosts().equals(localPosts) : "Posts not loaded correctly";
+			String test_2 = ((SocialMedia) platform).getAccount(3).getHandle();
+			assert(test_2.equals("test_2")) : "Loaded accounts hashmap does not match original hashmap";
+
+			String main_test_post = ((SocialMedia) platform).getPost(3).getContents();
+			assert(main_test_post.equals("Main test post")) : "Loaded posts hashmap does not match original hashmap";
 
 		} catch (IOException e) {
 			e.printStackTrace();

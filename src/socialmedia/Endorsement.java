@@ -42,6 +42,9 @@ public class Endorsement extends Post implements Serializable {
         return parent;
     }
 
+    /**
+     * Remove Endorsement from parent comment.
+     */
     public void removeEndorsementFromParent(){
         this.getParent().removeEndorsement();
     }

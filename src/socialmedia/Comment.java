@@ -46,11 +46,12 @@ public class Comment extends Post{
         parent.addComment(this);
     }
 
-    //TODO: Documentation
+    /**
+     * Constructor for a deleted comment taking the ID as a parameter.
+     * @param id id of the post.
+     */
     public Comment(int id) {
-        this.postId = id;
-        this.author = null;
-        this.contents = "The original content was removed from the system and is no longer available.";
+        super(id, "The original content was removed from the system and is no longer available.");
         comments = new ArrayList<>();
         setPostType(PostType.DELETED);
     }
@@ -90,7 +91,6 @@ public class Comment extends Post{
      * Makes a comment an orphan when the post it refers to is deleted.
      */
     public void makeOrphan(){
-        //parent.removeComment(this); causes issues
         setPostType(PostType.DELETED);
         this.isOrphan = true;
         originalParent.addDeletedComment(this);
@@ -139,8 +139,8 @@ public class Comment extends Post{
      */
     @Override
     public String toString(){
-        return "\nId: " + postId + "\nAccount: " + author.getHandle() + "\nNo. endorsements: " +
-               getEndorsementCount() + " | No. comments: " + comments.size() + "\n" + contents + "\n";
+        return "\nId: " + this.getId() + "\nAccount: " + this.getAuthor().getHandle() + "\nNo. endorsements: " +
+               getEndorsementCount() + " | No. comments: " + comments.size() + "\n" + this.getContents() + "\n";
     }
 
     /**
@@ -168,10 +168,10 @@ public class Comment extends Post{
 
         // Building the string
         String toString = babyIndent +"|\n" +
-                babyIndent + "| > "+ "Id: " + postId + "\n" +
-                indent +"Account: " + author.getHandle() + "\n" +
-                indent + "No. endorsements: " + getEndorsementCount() + " | No. comments: " + comments.size() + "\n" +
-                indent + contents + "\n";
+                babyIndent + "| > "+ "Id: " + this.getId() + "\n" +
+                indent +"Account: " + this.getAuthor().getHandle() + "\n" +
+                indent + "No. endorsements: " + getEndorsementCount() + " | No. comments: " + this.getComments().size() + "\n" +
+                indent + this.getContents() + "\n";
 
         return toString;
     }
