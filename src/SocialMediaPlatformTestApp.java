@@ -4,15 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * // TODO: Documentation
- * A short program to illustrate an app testing some minimal functionality of a
- * concrete implementation of the SocialMediaPlatform interface -- note you will
- * want to increase these checks, and run it on your SocialMedia class (not the
- * BadSocialMedia class).
+ * Testing for all SocialMedia.java functionality
  *
- * 
  * @author  700037512, 700074221
- * @version 3.0
  */
 public class SocialMediaPlatformTestApp {
 
@@ -114,8 +108,7 @@ public class SocialMediaPlatformTestApp {
 			 * - Provided handle must exist (HandleNotRecognisedException)
 			 * - Handle cant be same as another (IllegalHandleException)
 			 * - Handle can't be empty, have more than 30 characters, or have a space in it (InvalidHandleException)
-			 * - Using showAccount after changing account description should return :
-			 * "TODO"
+			 * - Using showAccount after changing account description should return the correct string
  			 */
 			platform.changeAccountHandle("my_handle", "new_Handle");
 			accountInfo = platform.showAccount("new_Handle");
@@ -130,7 +123,7 @@ public class SocialMediaPlatformTestApp {
 			/**
 			 * getMostEndorsedAccount
 			 * - Using getMostEndorsedAccount should return int 1 as it is the account ID with the most endorsements
-			 * currently
+			 * currently ✓
  			 */
 			int postID = platform.createPost("test_1", "testPost");
 			platform.endorsePost("new_Handle", postID);
@@ -138,9 +131,9 @@ public class SocialMediaPlatformTestApp {
 
 			/**
 			 * removeAccount
-			 * - Account ID must exist on the system (AccountIDNotRecognisedException)
+			 * - Account ID must exist on the system (AccountIDNotRecognisedException) ✓
 			 * - Using getNumberOfAccounts after removing an account should return int 2 as one of the 3 accounts has been
-			 * removed
+			 * removed ✓
 			 */
 			platform.removeAccount(1);
 			assert (platform.getNumberOfAccounts() == 2) : "number of accounts registered in the system does not match";
@@ -166,7 +159,7 @@ public class SocialMediaPlatformTestApp {
 		 * Tests for post methods
 		 * createPost ✓, endorsePost ✓, commentPost ✓, deletePost ✓, showIndividualPost ✓,
 		 * showPostChildrenDetails (+ postHelper) ✓, getTotalOriginalPosts , getTotalEndorsmentPosts ✓,
-		 * getTotalCommentPosts ✓, getMostEndorsedPost
+		 * getTotalCommentPosts ✓, getMostEndorsedPost ✓
 		 */
 		try {
 			platform.createAccount("test_2");
@@ -216,7 +209,7 @@ public class SocialMediaPlatformTestApp {
  			 */
 			int firstComment = platform.commentPost("test_2", 3, "Comment under main test post 1");
 			int secondComment = platform.commentPost("test_1", firstComment, "Comment under first comment");
-			platform.commentPost("test_1", secondComment, "Comment under id 3");
+			platform.commentPost("test_1", secondComment, "Comment under second comment");
 			platform.commentPost("test_2", 3, "Comment under main test post 1");
 
 			//print(platform.showIndividualPost(firstComment));
@@ -224,56 +217,52 @@ public class SocialMediaPlatformTestApp {
 
 			/**
 			 * showPostChildrenDetails
-			 * - Post ID should exist on system (PostIDNotRecognisedException)
-			 * - Endorsement posts should not be commentable (NotActionablePostException)
-			 * - Using showPostChildrenDetails should return:
-			 * "TODO"
+			 * - Post ID should exist on system (PostIDNotRecognisedException) ✓
+			 * - Endorsement posts should not be commentable (NotActionablePostException) ✓
+			 * - Using showPostChildrenDetails should return the correct string ✓
  			 */
 			platform.showPostChildrenDetails(3);
 			System.out.println(platform.showPostChildrenDetails(3));
-			// Testing showPostChildrenDetails with a deleted comment
-			platform.deletePost(6);
-			System.out.println(platform.showPostChildrenDetails(3));
-
 
 			/**
 			 * getTotalCommentPosts
 			 * - Using getTotalCommentPosts should return int 4 ✓
  			 */
-			//int totalComment = platform.getTotalCommentPosts();
-			//assert (totalComment == 4) : "getTotalCommentPosts comment count not calculated correctly";
+			int totalComment = platform.getTotalCommentPosts();
+			assert (totalComment == 4) : "getTotalCommentPosts comment count not calculated correctly";
 
 			/**
 			 * getTotalEndorsmentPosts
 			 * - Using getTotalEndorsmentPosts should return int 1 ✓
  			 */
-			//int totalEndorse = platform.getTotalEndorsmentPosts();
-			//assert (totalEndorse == 1) : "getTotalEndorsmentPosts endorsement count not calculated correctly";
+			int totalEndorse = platform.getTotalEndorsmentPosts();
+			assert (totalEndorse == 1) : "getTotalEndorsmentPosts endorsement count not calculated correctly";
 
 			/**
 			 * getTotalOriginalPosts
 			 * - Using getTotalOriginalPosts should return int 2 ✓
  			 */
-			//int totalOriginal = platform.getTotalOriginalPosts();
-			//assert (totalOriginal == 2) : "getTotalOriginalPosts original count not calculated correctly";
+			int totalOriginal = platform.getTotalOriginalPosts();
+			assert (totalOriginal == 2) : "getTotalOriginalPosts original count not calculated correctly";
 
 			/**
 			 * getMostEndorsedPost
-			 * Using getMostEndorsedPost should return TODO
+			 * Using getMostEndorsedPost should return the correct string ✓
 			 */
-			//int postID = platform.getMostEndorsedPost();
+			int postID = platform.getMostEndorsedPost();
+			assert(postID == 8) : "incorrect post returned for getMostEndorsedPost";
 
 			/**
 			 * deletePost
 			 * - Post ID should exist on system (PostIDNotRecognisedException)
 			 * - Using getTotalOriginalPosts should return int 1 ✓
 			 */
-			//platform.deletePost(1);
-			//try {
-			//	platform.showAccount("test_1");
-			//} catch (Exception e) {
-			//	print("Post successfully removed");
-			//}
+			platform.deletePost(1);
+			try {
+				((SocialMedia) platform).getPost(1);
+			} catch (PostIDNotRecognisedException e) {
+				assert(true) : "deletePost did not remove post as expected";
+			}
 		} catch(PostIDNotRecognisedException e) {
 			e.printStackTrace();
 		}  catch(InvalidPostException e) {

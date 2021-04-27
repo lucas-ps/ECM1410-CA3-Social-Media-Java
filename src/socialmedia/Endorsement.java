@@ -26,9 +26,9 @@ public class Endorsement extends Post implements Serializable {
     public Endorsement(Account author, String contents, Post parent) throws
             HandleNotRecognisedException, NotActionablePostException {
         super(author, contents);
-        this.contents = parent.contents;
+        this.setContents(parent.getContents());
         this.parent = parent;
-        parent.author.addEndorsement();
+        parent.getAuthor().addEndorsement();
         setPostType(PostType.ENDORSEMENT);
         author.addEndorsement();
         parent.addEndorsement();
@@ -53,7 +53,7 @@ public class Endorsement extends Post implements Serializable {
      */
     @Override
     public String toString(){
-        String outputStr = "EP@" + this.author.getHandle() + ": " + this.contents;
+        String outputStr = "EP@" + this.getAuthor().getHandle() + ": " + this.getContents();
         return outputStr;
     }
 }

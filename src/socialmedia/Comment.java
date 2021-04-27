@@ -19,6 +19,8 @@ public class Comment extends Post{
      * @param author The account that created the post.
      * @param contents The contents of the comment message.
      * @param parent The post that the comment refers too.
+     * @param originalParent The post's original parent (eg. if a comment, not the comment parent but the original post
+     *                       being commented on)
      * @throws InvalidPostException if the message is empty or has more than
      * 	                             100 characters.
      * @throws HandleNotRecognisedException if the handle does not match to any
@@ -102,11 +104,6 @@ public class Comment extends Post{
         endorsements.add(endorsement);
     }
 
-    // TODO documentation
-    public void removeComment(Comment comment) {
-        this.comments.remove(comment);
-    }
-
     /**
      * Returns the ArrayList of Endorsement objects corresponding to the post.
      * @return all endorsements for the current post
@@ -122,11 +119,6 @@ public class Comment extends Post{
      */
     public ArrayList<Comment> getComments() {
         return comments;
-    }
-
-    // TODO: documentation
-    public Post getParent() {
-        return parent;
     }
 
     /**

@@ -66,6 +66,14 @@ public class Post implements Serializable {
     }
 
     /**
+     * Setter method for the contents of the post.
+     * @param contents String contents of a post.
+     */
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    /**
      *Validation method checks if the author of the message is not null.
      * @param author The account the comment has come from.
      * @throws HandleNotRecognisedException if the handle does not match to any
@@ -155,7 +163,7 @@ public class Post implements Serializable {
     }
 
     /**
-     *ToString method to show the details of the post.
+     * ToString method to show the details of the post, overridden in child objects.
      * @return Blank string
      */
     @Override
@@ -164,7 +172,8 @@ public class Post implements Serializable {
     }
 
     /**
-     *ToString method to show the details of the post.
+     * ToString method to show the details of the post, overridden in child objects.
+     * @param indentationLevel the indentation required for the showPostChildrenDetails method.
      * @return Blank string
      */
     public String toString(int indentationLevel) {

@@ -16,6 +16,7 @@ public class Account implements Serializable {
     private String handle;
     private ArrayList<Post> userPosts;
     private int endorsementCount;
+    private ArrayList<Post> userPosts;
 
     /**
      * Constructor for SocialMediaPlatform accounts.
@@ -52,6 +53,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Returns an account's ID
      * @return an account object's id.
      */
     public int getId() {
@@ -59,6 +61,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Returns an account's handle
      * @return an account object's handle.
      */
     public String getHandle() {
@@ -106,7 +109,7 @@ public class Account implements Serializable {
     }
 
     /**
-     *
+     * Returns the description for a specified account.
      * @return the description for the account.
      */
     public String getDescription(){
@@ -121,6 +124,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Returns an account's endorsementCount
      * @return an account object's endorsementCount.
      */
     public int getEndorsementCount(){
@@ -153,6 +157,10 @@ public class Account implements Serializable {
         Account.newId = newId;
     }
 
+    /**
+     * Returns an account overview
+     * @return a string version of an account's overview
+     */
     @Override
     public String toString() {
        return "\nID: " + id + "\nHandle: " + handle + "\nDescription: " + description +

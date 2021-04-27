@@ -101,7 +101,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      * @return an ArrayList of posts that were found
      */
     public ArrayList<Post> getPostsByAuthor(Account author) {
-        ArrayList<Post> postsByAuthor = new ArrayList();
+        ArrayList<Post> postsByAuthor = new ArrayList<>();
         for (Post post : posts.values()) {
             if ((post.getAuthor().getHandle()).equals(author.getHandle())) {
                 postsByAuthor.add(post);
@@ -282,7 +282,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
             PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
         Account commentingAccount = getAccount(handle);
         Post post = getPost(id);
-        Post originalParent = null; //TODO find out what this is
+        Post originalParent;
         if (post.getPostType().equals(PostType.ORIGINAL)) {
             originalParent = post;
         } else {
@@ -312,19 +312,22 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException,
             NotActionablePostException {
         StringBuilder showPostChildren = new StringBuilder();
-        int indentationLevel = 1;
+        ArrayList<Comment> comments = new ArrayList<Comment>();
         Post post = getPost(id);
+
+        // Creating and adding parent comments to comments arraylist
+        comments = ((Original) post).getComments();
+
+        int indentationLevel = 1;
         showPostChildren.append(post.toString());
-        System.out.println(post.toString());
-        ArrayList<Comment> deletedComments = ((Original)post).getDeletedComments();
+        //System.out.println(post.toString();
         if (post.getPostType().equals(PostType.COMMENT)) {
-            postHelper(((Comment)post).getComments(), deletedComments, indentationLevel, showPostChildren);
+            postHelper(comments, indentationLevel, showPostChildren);
         } else {
-            postHelper(((Original)post).getComments(), deletedComments, indentationLevel, showPostChildren);
+            postHelper(comments, indentationLevel, showPostChildren);
         }
         return showPostChildren;
     }
-
 
     /**
      * Helper method for showPostChildrenDetails, iterates trough provided comments ArrayList, sorts out indentation,
@@ -332,10 +335,9 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      * @param comments The comment ArrayList provided for the post.
      * @param indentationLevel The level of indentation on the post.
      * @param showPostChildren Stringbuilder for the ShowPostChildrenDetails method.
-     * @return
+     * @return a StringBuilder that returns the post and it's children.
      */
-    public StringBuilder postHelper(ArrayList<Comment> comments, ArrayList<Comment> deletedComments,
-                                    int indentationLevel, StringBuilder showPostChildren) {
+    public StringBuilder postHelper(ArrayList<Comment> comments, int indentationLevel, StringBuilder showPostChildren) {
         for (Comment comment: comments){
             if (comment.getPostType().equals(PostType.DELETED)){
                 //comment = new Comment(-1);
