@@ -10,9 +10,8 @@ import java.lang.*;
  * @author 700037512, 700074221
  */
 public class SocialMedia implements SocialMediaPlatform, Serializable  {
-    public HashMap<String, Account> accounts;
-    public HashMap<Integer, Post> posts;
-    // TODO: Change back to private once tested
+    private HashMap<String, Account> accounts;
+    private HashMap<Integer, Post> posts;
 
     /**
      * Constructor method for the social media platform to implement the interfaces.
@@ -22,6 +21,20 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         posts = new HashMap<Integer, Post> ();
     }
     // Account/Post getter methods
+
+    /**
+     * @return the Posts hashmap
+     */
+    public HashMap<Integer, Post> getPosts() {
+        return posts;
+    }
+
+    /**
+     * @return the Accounts hashmap
+     */
+    public HashMap<String, Account> getAccounts() {
+        return accounts;
+    }
 
     /**
      * Creates a dummy post to set as a parent for comments who's parent has been deleted.
@@ -49,7 +62,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
                 return account;
                 }
             }
-        throw new AccountIDNotRecognisedException("Account ID '" + ID +" not recognised.");
+        throw new AccountIDNotRecognisedException("Account ID '" + ID +"' not recognised.");
     }
 
     /**
@@ -63,7 +76,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         if (accounts.containsKey(handle)){
              return accounts.get(handle);
         } else{
-            throw new HandleNotRecognisedException("Handle '"+ handle +"'not recognised.");
+            throw new HandleNotRecognisedException("Handle '"+ handle +"' not recognised.");
         }
     }
 
@@ -125,6 +138,9 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
                 ArrayList<Endorsement> endorsements = ((Comment) post).getEndorsements();
                 ArrayList<Comment> comments = ((Comment) post).getComments();
                 removeCommentsAndEndorsements(comments, endorsements);
+                Post parent = ((Comment) post).getParent();
+                parent.removeComment((Comment) post);
+                post.setPostType(PostType.DELETED);
                 this.posts.remove(post.getId());
             }
             else if (post.getPostType().equals(PostType.ORIGINAL)) {
@@ -265,7 +281,14 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
             PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
         Account commentingAccount = getAccount(handle);
-        Comment newComment = new Comment(commentingAccount, message, getPost(id));
+        Post post = getPost(id);
+        Post originalParent = null; //TODO find out what this is
+        if (post.getPostType().equals(PostType.ORIGINAL)) {
+            originalParent = post;
+        } else {
+            originalParent = ((Comment)post).getOriginalParent();
+        }
+        Comment newComment = new Comment(commentingAccount, message, getPost(id), originalParent);
         posts.put(newComment.getId(), newComment);
         return newComment.getId();
     }
@@ -292,10 +315,12 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
         int indentationLevel = 1;
         Post post = getPost(id);
         showPostChildren.append(post.toString());
+        System.out.println(post.toString());
+        ArrayList<Comment> deletedComments = ((Original)post).getDeletedComments();
         if (post.getPostType().equals(PostType.COMMENT)) {
-            postHelper(((Comment)post).getComments(), indentationLevel, showPostChildren);
+            postHelper(((Comment)post).getComments(), deletedComments, indentationLevel, showPostChildren);
         } else {
-            postHelper(((Original)post).getComments(), indentationLevel, showPostChildren);
+            postHelper(((Original)post).getComments(), deletedComments, indentationLevel, showPostChildren);
         }
         return showPostChildren;
     }
@@ -308,18 +333,20 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
      * @param indentationLevel The level of indentation on the post.
      * @param showPostChildren Stringbuilder for the ShowPostChildrenDetails method.
      * @return
-     * https://www.logicbig.com/how-to/java-string/java-indent-string.html
-     * https://www.logicbig.com/tutorials/core-java-tutorial/java-12-changes/string-changes.html
      */
-    public static StringBuilder postHelper(ArrayList<Comment> comments, int indentationLevel,
-                                           StringBuilder showPostChildren ) {
+    public StringBuilder postHelper(ArrayList<Comment> comments, ArrayList<Comment> deletedComments,
+                                    int indentationLevel, StringBuilder showPostChildren) {
         for (Comment comment: comments){
             if (comment.getPostType().equals(PostType.DELETED)){
-                continue;
+                //comment = new Comment(-1);
+                Post dummy = dummyPost();
+                String deleted = ((Comment) dummy).toString(indentationLevel);
+                showPostChildren.append(deleted);
+            } else {
+                String commentString = "";
+                commentString += comment.toString(indentationLevel);
+                showPostChildren.append(commentString);
             }
-            String commentString = "";
-            commentString += comment.toString(indentationLevel);
-            showPostChildren.append(commentString);
             if(!(comment.getComments().isEmpty())){
                 postHelper(comment.getComments(),indentationLevel+1, showPostChildren);
             }
@@ -366,6 +393,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
             outStream.writeObject(this);
             outStream.close();
             out.close();
+            System.out.println("Platform saved in " + filename);
         } catch (IOException e){
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -376,13 +404,14 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
         try {
-            FileInputStream in = new FileInputStream(filename);
-            ObjectInputStream inStream = new ObjectInputStream(in);
-            SocialMedia deserialized = (SocialMedia) inStream.readObject();
-            this.accounts = deserialized.accounts;
-            this.posts = deserialized.posts;
-            inStream.close();
-            in.close();
+                ObjectInputStream  input = new ObjectInputStream(new FileInputStream(filename));
+                Object object = input.readObject();
+                if (object instanceof SocialMedia){
+                    this.accounts = ((SocialMedia) object).accounts;
+                    this.posts = ((SocialMedia)object).posts;
+                }
+                input.close();
+                System.out.println("Platform loaded from " + filename);
         } catch (ClassNotFoundException e) {
             System.out.println("Class not found exception.");
             e.printStackTrace();
