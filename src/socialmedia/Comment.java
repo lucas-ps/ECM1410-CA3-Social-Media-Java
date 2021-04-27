@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author 700037512, 700074221
  */
 public class Comment extends Post{
+    // TODO: comments arent being added to the array list either
     private boolean isOrphan;
     private Post parent;
     private ArrayList<Endorsement> endorsements;
