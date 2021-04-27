@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Original extends Post implements Serializable {
     private ArrayList<Comment> comments;
     private ArrayList<Endorsement> endorsements;
+    private ArrayList<Comment> deletedComments;
 
     /**
      * Constructor for Original post objects.
