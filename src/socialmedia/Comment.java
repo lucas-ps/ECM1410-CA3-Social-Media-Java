@@ -24,7 +24,8 @@ public class Comment extends Post{
      *                                      account in the system.
      * @throws NotActionablePostException //TODO: this
      */
-    public Comment(Account author, String contents, Post parent)
+
+    public Comment(Account author, String contents, Post parent, Post originalParent)
             throws InvalidPostException, HandleNotRecognisedException, NotActionablePostException {
         super(author, contents);
         isContentsValid(contents);
@@ -33,7 +34,17 @@ public class Comment extends Post{
         this.parent = parent;
         endorsements = new ArrayList<Endorsement>();
         comments = new ArrayList<Comment>();
+        this.originalParent = originalParent;
         parent.addComment(this);
+    }
+
+    //TODO: Documentation
+    public Comment(int id) {
+        this.postId = id;
+        this.author = null;
+        this.contents = "The original content was removed from the system and is no longer available.";
+        comments = new ArrayList<>();
+        setPostType(PostType.DELETED);
     }
 
     /**
