@@ -22,7 +22,12 @@ public class Comment extends Post{
      * 	                             100 characters.
      * @throws HandleNotRecognisedException if the handle does not match to any
      *                                      account in the system.
-     * @throws NotActionablePostException //TODO: this
+     * @throws NotActionablePostException if the ID refers to a endorsement post.
+     *                                     Endorsement posts are not endorsable.
+     *                                     Endorsements are not transitive. For
+     *                                     instance, if post A is endorsed by post
+     *                                     B, and an account wants to endorse B, in
+     *                                     fact, the endorsement must refers to A.
      */
 
     public Comment(Account author, String contents, Post parent, Post originalParent)
@@ -68,6 +73,14 @@ public class Comment extends Post{
         if (contents.length() > 100) {
             throw new InvalidPostException("Contents is over 100 characters. It is too long.");
         }
+    }
+
+    /**
+     * Getter method for the Parent of the Parent of the post after the immediate post has been deleted.
+     * @return the Original Grand-Parent of the post.
+     */
+    public Post getOriginalParent() {
+        return originalParent;
     }
 
     /**
