@@ -348,9 +348,15 @@ public class SocialMedia implements SocialMediaPlatform, Serializable  {
                 showPostChildren.append(commentString);
             }
             if(!(comment.getComments().isEmpty())){
-                postHelper(comment.getComments(),indentationLevel+1, showPostChildren);
+                postHelper(comment.getComments(), deletedComments, indentationLevel+1, showPostChildren);
             }
         }
+        //for (Comment comment: deletedComments){
+           // if(!(comment.getComments().isEmpty())) {
+             //   postHelper(comment.getComments(), deletedComments, indentationLevel + 1, showPostChildren);
+            //}
+        //}
+
         return showPostChildren;
     }
 
