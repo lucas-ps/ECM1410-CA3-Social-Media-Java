@@ -12,6 +12,7 @@ public class Comment extends Post{
     private Post parent;
     private ArrayList<Endorsement> endorsements;
     private ArrayList<Comment> comments;
+    private Post originalParent;
 
     /**
      *
@@ -87,7 +88,10 @@ public class Comment extends Post{
      * Makes a comment an orphan when the post it refers to is deleted.
      */
     public void makeOrphan(){
-       this.isOrphan = true;
+        //parent.removeComment(this); causes issues
+        setPostType(PostType.DELETED);
+        this.isOrphan = true;
+        originalParent.addDeletedComment(this);
     }
 
     /**
@@ -96,6 +100,11 @@ public class Comment extends Post{
      */
     public void addEndorsementArrayList(Endorsement endorsement){
         endorsements.add(endorsement);
+    }
+
+    // TODO documentation
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
     }
 
     /**
@@ -113,6 +122,11 @@ public class Comment extends Post{
      */
     public ArrayList<Comment> getComments() {
         return comments;
+    }
+
+    // TODO: documentation
+    public Post getParent() {
+        return parent;
     }
 
     /**
