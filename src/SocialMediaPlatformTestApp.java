@@ -302,7 +302,7 @@ public class SocialMediaPlatformTestApp {
 
 			/**
 			 * loadPlatform
-			 * - Hashmaps imported should be the same as before the platform was erased ✓
+			 * - Hashmaps imported should be the same as before the platform was erased
 			 */
 			platform.loadPlatform("testSave");
 			String test_2 = ((SocialMedia) platform).getAccount(3).getHandle();
@@ -314,6 +314,10 @@ public class SocialMediaPlatformTestApp {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (AccountIDNotRecognisedException e) {
+			e.printStackTrace();
+		} catch (PostIDNotRecognisedException e) {
 			e.printStackTrace();
 		}
 	}
