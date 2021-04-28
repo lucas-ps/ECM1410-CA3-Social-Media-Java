@@ -5,7 +5,7 @@ Joint coding project for Object Oriented programming first year module at Exeter
 is to design the backend of a very simple social media platform and implement the functionality of 2 interfaces. This CA
 comprises 50% of the overall module assessment.
 
-Assignment
+**Assignment**
 
 The University of Knowledge (UoK) is extremely pleased with the partnership with their students in the development
 of their own systems. The experience has been shown to be positive to all. Now, the UoK is planning to create its own
@@ -16,8 +16,7 @@ used between the back-end you develop, and the front-end the other group is deve
 simply compile in the jar file of the package you develop, with the rest of their system, to result in a fully functioning
 solution.
 
-Authors
+**Authors**
 
-Ursula Mennear,
-
-Lucas Proudhon-Smith
+Ursula Mennear: First Year CS and Maths Student (@ursulamennear),                                                        
+Lucas Proudhon-Smith: First Year CS Student (@lucas-ps)
